@@ -1,11 +1,18 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import ReduxExample from './ReduxExample';
-import SecondPage from './components/SecondPage';
+import Monefy from './components/Monefy';
+import NewIncome from './components/NewIncome';
+import NewExpence from './components/NewExpence';
 
 const RouterComponent = () => {
     return (
-        <Router sceneStyle={{ paddingTop: 0 }} >
+        <Router
+            navigationBarStyle={styles.navBar}
+            titleStyle={styles.navTitle}
+            sceneStyle={{ backgroundColor: '#F0FFF0' }}
+        >
             <Scene key="root" hideNavBar>
                 {/* <Scene key="auth">
                     <Scene key="login" component={ReduxExample} title="Please Login"  />
@@ -25,12 +32,42 @@ const RouterComponent = () => {
                         title="Create Employee" /> */}
                     <Scene
                         key="secondPage"
-                        component={SecondPage}
-                        title="Second Page" />
+                        component={Monefy}
+                        title="Monefy"
+                        initial
+                    />
+                    <Scene
+                        // rightTitle="Add"
+                        // onLeft={() => { Actions.Monefy() }}
+                        key="newIncome"
+                        component={NewIncome}
+                        title="New Income"
+                    />
+                    <Scene
+                        key="newExpence"
+                        component={NewExpence}
+                        title="New Expence"
+                    />
                 </Scene>
             </Scene>
         </Router>
     );
 };
+
+const styles = StyleSheet.create({
+    navBar: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#3CB371', // changing navbar color
+    },
+    navTitle: {
+        color: 'white', // changing navbar title color
+        fontSize: 25,
+        fontStyle: 'italic',
+        fontFamily: 'Calibri'
+    }
+});
 
 export default RouterComponent;
