@@ -5,9 +5,9 @@ import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 const RoundButton = ({ onPress, children }) => {
     return (
         <TouchableOpacity
-            style={children === 'Expence' ? styles.buttonStyleExpence : styles.buttonStyleIncome}
+            style={children === 'Expense' ? styles.buttonStyleExpence : styles.buttonStyleIncome}
             onPress={onPress}>
-            <Text style={children === 'Expence' ? styles.textsStyleExpence : styles.textsStyleIncome}>{children}</Text>
+            <Text style={children === 'Expense' ? styles.textsStyleExpence : styles.textsStyleIncome}>{children}</Text>
         </TouchableOpacity>
     );
 };
