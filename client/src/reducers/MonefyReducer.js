@@ -1,9 +1,14 @@
-const INITIAL_STATE = { currentDate: '', expense: '', income: '' };
+import { EXPENSE_CHANGED, ERROR_MSG_CHANGED } from '../actions/types';
+
+const INITIAL_STATE = { currentDate: '', expense: '', income: '', errorMsg: '' };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        // case FIRST_NAME_CHANGED:
-        //     return { ...state, firstName: action.payload };
+        case EXPENSE_CHANGED:
+            console.log(action.payload);
+            return { ...state, expense: action.payload, errorMsg: '' };
+        case ERROR_MSG_CHANGED:
+            return { ...state, errorMsg: action.payload };
         // case LAST_NAME_CHANGED:
         //     return { ...state, lastName: action.payload };
         // case FULL_NAME_CHANGED:

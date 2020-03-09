@@ -4,7 +4,8 @@ import { Scene, Router, Actions } from 'react-native-router-flux';
 import ReduxExample from './ReduxExample';
 import Monefy from './components/Monefy';
 import NewIncome from './components/NewIncome';
-import NewExpence from './components/NewExpence';
+import NewExpense from './components/NewExpense';
+import ChooseCategory from './components/ChooseCategory';
 
 const RouterComponent = () => {
     return (
@@ -44,9 +45,14 @@ const RouterComponent = () => {
                         title="New Income"
                     />
                     <Scene
-                        key="newExpence"
-                        component={NewExpence}
-                        title="New Expence"
+                        key="newExpense"
+                        component={NewExpense}
+                        title="New Expense"
+                    />
+                    <Scene
+                        key="chooseCategory"
+                        component={ChooseCategory}
+                        title="Choose Category"
                     />
                 </Scene>
             </Scene>

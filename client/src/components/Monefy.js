@@ -26,10 +26,10 @@ class Monefy extends Component {
 
 				<CardSection>
 					<RoundButton
-						onPress={() => Actions.newExpence()}
+						onPress={() => Actions.newExpense()}
 					//style={styles.leftRoundButton}
 					>
-						Expence
+						Expense
             		</RoundButton>
 					<RoundButton
 						onPress={() => Actions.newIncome()}
