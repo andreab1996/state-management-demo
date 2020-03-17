@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable quotes */
 import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
@@ -14,78 +15,134 @@ class ChooseCategory extends Component {
                 }} >
                     <View>
                         <View style={styles.iconContainer}>
-                            <Icon name="money-bill-alt" style={{ fontSize: 45, color: "orange" }} />
+                            <Icon
+                                name="money-bill-alt"
+                                style={{ fontSize: 45, color: "orange" }}
+                                onPress={() => console.log("bills")}
+                            />
                             <Text style={{ color: 'orange', textAlign: 'center' }}>Bills</Text>
                         </View>
 
                         <View style={styles.iconContainer}>
-                            <Icon name="car" style={{ fontSize: 45, color: "gray" }} />
+                            <Icon
+                                name="car"
+                                style={{ fontSize: 45, color: "gray" }}
+                                onPress={() => console.log("car")}
+                            />
                             <Text style={{ color: 'gray', textAlign: 'center' }}>Car</Text>
                         </View>
 
                         <View style={styles.iconContainer}>
-                            <Icon name="phone" style={{ fontSize: 45, color: "red" }} />
-                            <Text style={{ color: 'red', textAlign: 'center' }}>Communications</Text>
+                            <Icon
+                                name="phone"
+                                style={{ fontSize: 45, color: "#D2481D" }}
+                                onPress={() => console.log("bills")}
+                            />
+                            <Text style={{ color: '#D2481D', textAlign: 'center' }}>Communications</Text>
                         </View>
                         <View style={styles.iconContainer}>
-                            <Icon name="gift" style={{ fontSize: 45, color: "pink" }} />
-                            <Text style={{ color: 'pink', textAlign: 'center' }}>Gifts</Text>
+                            <Icon
+                                name="gift"
+                                style={{ fontSize: 45, color: "#FF69B4" }}
+                                onPress={() => console.log("bills")}
+                            />
+                            <Text style={{ color: '#FF69B4', textAlign: 'center' }}>Gifts</Text>
                         </View>
                         <View style={styles.iconContainer}>
-                            <Icon name="glass-martini-alt" style={{ fontSize: 45, color: "blue" }} />
-                            <Text style={{ color: 'blue', textAlign: 'center' }}>House</Text>
+                            <Icon
+                                name="glass-martini-alt"
+                                style={{ fontSize: 45, color: "#DC143C" }}
+                                onPress={() => console.log("bills")}
+                            />
+                            <Text style={{ color: '#DC143C', textAlign: 'center' }}>Entertainmment</Text>
                         </View>
                     </View>
                     <View>
-                        {/* <View style={styles.iconContainer} />
-                        <View style={styles.iconContainer} />
-                        <View style={styles.iconContainer} />
-                        <View style={styles.iconContainer} /> */}
                         <View style={styles.iconContainer}>
-                            <Icon name="home" style={{ fontSize: 45, color: "blue" }} />
-                            <Text style={{ color: 'blue', textAlign: 'center' }}>House</Text>
+                            <Icon
+                                name="home"
+                                style={{ fontSize: 45, color: "#6495ED" }}
+                                onPress={() => console.log("bills")}
+                            />
+                            <Text style={{ color: '#6495ED', textAlign: 'center' }}>House</Text>
                         </View>
 
                         <View style={styles.iconContainer}>
-                            <Icon name="paw" style={{ fontSize: 45, color: "green" }} />
-                            <Text style={{ color: 'green', textAlign: 'center' }}>Pets</Text>
+                            <Icon
+                                name="dog"
+                                style={{ fontSize: 45, color: "#800000" }}
+                                onPress={() => console.log("bills")}
+                            />
+                            <Text style={{ color: '#800000', textAlign: 'center' }}>Pets</Text>
                         </View>
 
                         <View style={styles.iconContainer}>
-                            <Icon name="taxi" style={{ fontSize: 45, color: "yellow" }} />
-                            <Text style={{ color: 'yellow', textAlign: 'center' }}>Taxi</Text>
+                            <Icon
+                                name="taxi"
+                                style={{ fontSize: 45, color: "#CCCC00" }}
+                                onPress={() => console.log("bills")}
+                            />
+                            <Text style={{ color: '#CCCC00', textAlign: 'center' }}>Taxi</Text>
                         </View>
                         <View style={styles.iconContainer}>
-                            <Icon name="train" style={{ fontSize: 45, color: "purple" }} />
+                            <Icon
+                                name="train"
+                                style={{ fontSize: 45, color: "purple" }}
+                                onPress={() => console.log("bills")}
+                            />
                             <Text style={{ color: 'purple', textAlign: 'center' }}>Transport</Text>
                         </View>
                         <View style={styles.iconContainer}>
-                            <Icon name="pizza-slice" style={{ fontSize: 45, color: "orange" }} />
+                            <Icon
+                                name="pizza-slice"
+                                style={{ fontSize: 45, color: "orange" }}
+                                onPress={() => console.log("bills")}
+                            />
                             <Text style={{ color: 'orange', textAlign: 'center' }}>Food</Text>
                         </View>
                     </View>
                     <View>
                         <View style={styles.iconContainer}>
-                            <Icon name="notes-medical" style={{ fontSize: 45, color: "red" }} />
+                            <Icon
+                                name="notes-medical"
+                                style={{ fontSize: 45, color: "red" }}
+                                onPress={() => console.log("bills")}
+                            />
                             <Text style={{ color: 'red', textAlign: 'center' }}>Health</Text>
                         </View>
 
                         <View style={styles.iconContainer}>
-                            <Icon name="running" style={{ fontSize: 45, color: "gray" }} />
+                            <Icon
+                                name="running"
+                                style={{ fontSize: 45, color: "gray" }}
+                                onPress={() => console.log("bills")}
+                            />
                             <Text style={{ color: 'gray', textAlign: 'center' }}>Sports</Text>
                         </View>
 
                         <View style={styles.iconContainer}>
-                            <Icon name="tshirt" style={{ fontSize: 45, color: "red" }} />
-                            <Text style={{ color: 'red', textAlign: 'center' }}>Clothes</Text>
+                            <Icon
+                                name="tshirt"
+                                style={{ fontSize: 45, color: "#DB7093" }}
+                                onPress={() => console.log("bills")}
+                            />
+                            <Text style={{ color: '#DB7093', textAlign: 'center' }}>Clothes</Text>
                         </View>
                         <View style={styles.iconContainer}>
-                            <Icon name="utensils" style={{ fontSize: 45, color: "green" }} />
-                            <Text style={{ color: 'green', textAlign: 'center' }}>Eating out</Text>
+                            <Icon
+                                name="utensils"
+                                style={{ fontSize: 45, color: "#A52A2A" }}
+                                onPress={() => console.log("bills")}
+                            />
+                            <Text style={{ color: '#A52A2A', textAlign: 'center' }}>Eating out</Text>
                         </View>
                         <View style={styles.iconContainer}>
-                            <Icon name="taxi" style={{ fontSize: 45, color: "black" }} />
-                            <Text style={{ color: 'black', textAlign: 'center' }}>Taxi</Text>
+                            <Icon
+                                name="taxi"
+                                style={{ fontSize: 45, color: "#483D8B" }}
+                                onPress={() => console.log("bills")}
+                            />
+                            <Text style={{ color: '#483D8B', textAlign: 'center' }}>Taxi</Text>
                         </View>
                     </View>
                 </View>

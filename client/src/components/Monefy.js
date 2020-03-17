@@ -5,14 +5,6 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 class Monefy extends Component {
-	onExpencePress() {
-
-	}
-
-	onIncomePress() {
-		Actions.newIncome();
-	}
-
 	render() {
 		return (
 			<Card>

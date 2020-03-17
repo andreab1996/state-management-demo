@@ -27,12 +27,8 @@ const RouterComponent = () => {
                         title="Redux Example"
                         initial
                     />
-                    {/* {/* <Scene
-                        key="employeeCreate"
-                        component={EmployeeCreate}
-                        title="Create Employee" /> */}
                     <Scene
-                        key="secondPage"
+                        key="monefy"
                         component={Monefy}
                         title="Monefy"
                         initial
