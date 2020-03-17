@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 const DeviceWidth = Dimensions.get('window').width;
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 class ChooseCategory extends Component {
@@ -14,8 +14,8 @@ class ChooseCategory extends Component {
                 }} >
                     <View>
                         <View style={styles.iconContainer}>
-                            <Icon name="money" style={{ fontSize: 45, color: "orange" }} />
-                            <Text style={{ color: 'oragne', textAlign: 'center' }}>Bills</Text>
+                            <Icon name="money-bill-alt" style={{ fontSize: 45, color: "orange" }} />
+                            <Text style={{ color: 'orange', textAlign: 'center' }}>Bills</Text>
                         </View>
 
                         <View style={styles.iconContainer}>
@@ -31,7 +31,10 @@ class ChooseCategory extends Component {
                             <Icon name="gift" style={{ fontSize: 45, color: "pink" }} />
                             <Text style={{ color: 'pink', textAlign: 'center' }}>Gifts</Text>
                         </View>
-                        {/* <View style={styles.iconContainer}> </View> */}
+                        <View style={styles.iconContainer}>
+                            <Icon name="glass-martini-alt" style={{ fontSize: 45, color: "blue" }} />
+                            <Text style={{ color: 'blue', textAlign: 'center' }}>House</Text>
+                        </View>
                     </View>
                     <View>
                         {/* <View style={styles.iconContainer} />
@@ -56,25 +59,33 @@ class ChooseCategory extends Component {
                             <Icon name="train" style={{ fontSize: 45, color: "purple" }} />
                             <Text style={{ color: 'purple', textAlign: 'center' }}>Transport</Text>
                         </View>
+                        <View style={styles.iconContainer}>
+                            <Icon name="pizza-slice" style={{ fontSize: 45, color: "orange" }} />
+                            <Text style={{ color: 'orange', textAlign: 'center' }}>Food</Text>
+                        </View>
                     </View>
                     <View>
                         <View style={styles.iconContainer}>
-                            <Icon name="money" style={{ fontSize: 45, color: "orange" }} />
-                            <Text style={{ color: 'oragne', textAlign: 'center' }}>Bills</Text>
+                            <Icon name="notes-medical" style={{ fontSize: 45, color: "red" }} />
+                            <Text style={{ color: 'red', textAlign: 'center' }}>Health</Text>
                         </View>
 
                         <View style={styles.iconContainer}>
-                            <Icon name="car" style={{ fontSize: 45, color: "gray" }} />
-                            <Text style={{ color: 'gray', textAlign: 'center' }}>Car</Text>
+                            <Icon name="running" style={{ fontSize: 45, color: "gray" }} />
+                            <Text style={{ color: 'gray', textAlign: 'center' }}>Sports</Text>
                         </View>
 
                         <View style={styles.iconContainer}>
-                            <Icon name="phone" style={{ fontSize: 45, color: "red" }} />
-                            <Text style={{ color: 'red', textAlign: 'center' }}>Communications</Text>
+                            <Icon name="tshirt" style={{ fontSize: 45, color: "red" }} />
+                            <Text style={{ color: 'red', textAlign: 'center' }}>Clothes</Text>
                         </View>
                         <View style={styles.iconContainer}>
-                            <Icon name="phone" style={{ fontSize: 45, color: "red" }} />
-                            <Text style={{ color: 'red', textAlign: 'center' }}>Communications</Text>
+                            <Icon name="utensils" style={{ fontSize: 45, color: "green" }} />
+                            <Text style={{ color: 'green', textAlign: 'center' }}>Eating out</Text>
+                        </View>
+                        <View style={styles.iconContainer}>
+                            <Icon name="taxi" style={{ fontSize: 45, color: "black" }} />
+                            <Text style={{ color: 'black', textAlign: 'center' }}>Taxi</Text>
                         </View>
                     </View>
                 </View>
