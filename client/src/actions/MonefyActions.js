@@ -7,6 +7,7 @@ import {
 } from './types';
 
 export const incomeChanged = (text) => {
+    console.log(text);
     return {
         type: INCOME_CHANGED,
         payload: text

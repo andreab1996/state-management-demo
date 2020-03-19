@@ -21,6 +21,7 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screen-keyboard": "^1.2.0",
     "react-native-screens": "^2.2.0",
+    "react-native-vector-icons": "^6.6.0",
     "react-native-wizard": "^2.0.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5"

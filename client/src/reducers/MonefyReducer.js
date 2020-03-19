@@ -16,12 +16,6 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, showExpanseKeyboard: action.payload };
         case ERROR_MSG_CHANGED:
             return { ...state, errorMsg: action.payload };
-        // case LAST_NAME_CHANGED:
-        //     return { ...state, lastName: action.payload };
-        // case FULL_NAME_CHANGED:
-        //     let text =  action.payload || '';
-        //     let [firstName, lastName] = text.split(' ');
-        //     return {...state, firstName: firstName ? firstName : '', lastName: lastName ? lastName : ''};
         default:
             let monthNames = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"];

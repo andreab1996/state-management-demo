@@ -28,13 +28,12 @@ class NewExpense extends Component {
         this.props.expenseChanged(key);
     }
 
-    chooseCategory(show) {
+    chooseCategory() {
         const { expense, showExpanseKeyboard } = this.props;
         if (!expense) {
             this.props.errorMsgChanged('You must enter a value!');
             return;
         }
-        console.log();
         this.props.changeShowExpanseKeyboard(showExpanseKeyboard);
     }
 
@@ -60,7 +59,6 @@ class NewExpense extends Component {
                 {this.props.showExpanseKeyboard &&
                     <View style={styles.keyboard}>
                         <VirtualKeyboard
-                            // keyboardStyle={styles.keyboard}
                             onRef={ref => (this.keyboard = ref)}
                             onChange={this.keyDown.bind(this)}
                         />
@@ -95,7 +93,7 @@ class NewExpense extends Component {
                                     <Icon
                                         name="car"
                                         style={{ fontSize: 45, color: "gray" }}
-                                        onPress={() => console.log("car")}
+                                        onPress={this.submitExpense.bind(this)}
                                     />
                                     <Text style={{ color: 'gray', textAlign: 'center' }}>Car</Text>
                                 </View>
