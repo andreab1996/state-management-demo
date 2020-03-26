@@ -28,8 +28,8 @@ class NewIncome extends Component {
             return;
         }
         console.log();
-        this.props.changeShowIncomeKeyboard(this.props.showIncomeKeyboard);
-        // Actions.chooseCategory();
+        this.props.changeShowIncomeKeyboard(showIncomeKeyboard);
+        this.props.incomeChanged('');
     }
 
     render() {

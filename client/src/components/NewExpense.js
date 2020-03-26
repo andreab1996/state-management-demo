@@ -6,15 +6,9 @@ import { TextInput } from 'react-native-gesture-handler';
 import { VirtualKeyboard } from 'react-native-screen-keyboard';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
+import { changeShowExpanseKeyboard, errorMsgChanged, expenseChanged, submitExpense } from '../actions';
 import { Button, Card, CardSection } from './common';
-import { Actions } from 'react-native-router-flux';
 const DeviceWidth = Dimensions.get('window').width;
-import {
-    changeShowExpanseKeyboard,
-    errorMsgChanged,
-    expenseChanged,
-    submitExpense
-} from '../actions';
 
 
 class NewExpense extends Component {
@@ -37,11 +31,11 @@ class NewExpense extends Component {
         this.props.changeShowExpanseKeyboard(showExpanseKeyboard);
     }
 
-    submitExpense() {
+    submit(category) {
         const { expense, showExpanseKeyboard } = this.props;
 
         this.props.changeShowExpanseKeyboard(showExpanseKeyboard);
-        this.props.expenseChanged('');
+        this.props.submitExpense({ expense, category });
     }
 
     render() {
@@ -84,7 +78,7 @@ class NewExpense extends Component {
                                     <Icon
                                         name="money-bill-alt"
                                         style={{ fontSize: 45, color: "orange" }}
-                                        onPress={this.submitExpense.bind(this)}
+                                        onPress={() => this.submit('bills')}
                                     />
                                     <Text style={{ color: 'orange', textAlign: 'center' }}>Bills</Text>
                                 </View>
@@ -93,7 +87,7 @@ class NewExpense extends Component {
                                     <Icon
                                         name="car"
                                         style={{ fontSize: 45, color: "gray" }}
-                                        onPress={this.submitExpense.bind(this)}
+                                        onPress={() => this.submit('car')}
                                     />
                                     <Text style={{ color: 'gray', textAlign: 'center' }}>Car</Text>
                                 </View>
@@ -102,7 +96,7 @@ class NewExpense extends Component {
                                     <Icon
                                         name="phone"
                                         style={{ fontSize: 45, color: "#D2481D" }}
-                                        onPress={() => console.log("bills")}
+                                        onPress={() => this.submit('phone')}
                                     />
                                     <Text style={{ color: '#D2481D', textAlign: 'center' }}>Communications</Text>
                                 </View>
@@ -110,7 +104,7 @@ class NewExpense extends Component {
                                     <Icon
                                         name="gift"
                                         style={{ fontSize: 45, color: "#FF69B4" }}
-                                        onPress={() => console.log("bills")}
+                                        onPress={() => this.submit('gift')}
                                     />
                                     <Text style={{ color: '#FF69B4', textAlign: 'center' }}>Gifts</Text>
                                 </View>
@@ -118,7 +112,7 @@ class NewExpense extends Component {
                                     <Icon
                                         name="glass-martini-alt"
                                         style={{ fontSize: 45, color: "#DC143C" }}
-                                        onPress={() => console.log("bills")}
+                                        onPress={() => this.submit('glass-martini-alt')}
                                     />
                                     <Text style={{ color: '#DC143C', textAlign: 'center' }}>Entertainmment</Text>
                                 </View>
@@ -128,7 +122,7 @@ class NewExpense extends Component {
                                     <Icon
                                         name="home"
                                         style={{ fontSize: 45, color: "#6495ED" }}
-                                        onPress={() => console.log("bills")}
+                                        onPress={() => this.submit('home')}
                                     />
                                     <Text style={{ color: '#6495ED', textAlign: 'center' }}>House</Text>
                                 </View>
@@ -137,7 +131,7 @@ class NewExpense extends Component {
                                     <Icon
                                         name="dog"
                                         style={{ fontSize: 45, color: "#800000" }}
-                                        onPress={() => console.log("bills")}
+                                        onPress={() => this.submit('dog')}
                                     />
                                     <Text style={{ color: '#800000', textAlign: 'center' }}>Pets</Text>
                                 </View>

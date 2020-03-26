@@ -7,3 +7,4 @@ export const EXPENSE_CHANGED = 'expanse_changed';
 export const ERROR_MSG_CHANGED = 'error_msg_changed';
 export const SHOW_INCOME_KEYBOARD = 'show_income_keyboard';
 export const SHOW_EXPENSE_KEYBOARD = 'show_expense_keyboard';
+export const SUBMIT_EXPENSE = 'submit_expense';
