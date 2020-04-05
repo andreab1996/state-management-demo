@@ -93,14 +93,14 @@ export default (state = INITIAL_STATE, action) => {
                     } else {
                         sections.forEach(el => {
                             if (el.color === color) {
-                                el.percentage = percentage.toFixed(2);
+                                el.percentage = percentage;
                             }
                         });
                     }
                 } else {
                     sections.map(s => {
                         if (s.color === element.color) {
-                            s.percentage = (element.quantity / totalExpense * 100).toFixed(2);
+                            s.percentage = (element.quantity / totalExpense * 100);
                         }
                     });
                 }
