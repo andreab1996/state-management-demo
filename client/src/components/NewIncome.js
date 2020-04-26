@@ -1,14 +1,15 @@
 /* eslint-disable quotes */
 /* eslint-disable react-native/no-inline-styles */
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { Card, CardSection, Button } from './common';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 import { VirtualKeyboard } from 'react-native-screen-keyboard';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
+import { changeShowIncomeKeyboard, errorMsgChanged, incomeChanged, submitIncome } from '../actions';
+import { Button, Card, CardSection } from './common';
+import { Category } from '../util/Category';
 const DeviceWidth = Dimensions.get('window').width;
-import { changeShowIncomeKeyboard, errorMsgChanged, incomeChanged } from '../actions';
 
 class NewIncome extends Component {
     handleKeyPress() {
@@ -27,9 +28,14 @@ class NewIncome extends Component {
             this.props.errorMsgChanged('You must enter a value!');
             return;
         }
-        console.log();
         this.props.changeShowIncomeKeyboard(showIncomeKeyboard);
-        this.props.incomeChanged('');
+    }
+
+    submit(category) {
+        const { income, showIncomeKeyboard } = this.props;
+
+        this.props.submitIncome({ income, category, showIncomeKeyboard });
+        // this.props.changeShowExpanseKeyboard(showExpanseKeyboard);
     }
 
     render() {
@@ -73,9 +79,9 @@ class NewIncome extends Component {
                                     <Icon
                                         name="dollar-sign"
                                         style={{ fontSize: 45, color: "orange" }}
-                                        onPress={() => console.log("bills")}
+                                        onPress={() => this.submit('deposits')}
                                     />
-                                    <Text style={{ color: 'orange', textAlign: 'center' }}>Deposits</Text>
+                                    <Text style={{ color: 'orange', textAlign: 'center' }}>{Category.Deposits}</Text>
                                 </View>
                             </View>
 
@@ -84,9 +90,9 @@ class NewIncome extends Component {
                                     <Icon
                                         name="coins"
                                         style={{ fontSize: 45, color: "#6495ED" }}
-                                        onPress={() => console.log("bills")}
+                                        onPress={() => this.submit('salary')}
                                     />
-                                    <Text style={{ color: '#6495ED', textAlign: 'center' }}>Salary</Text>
+                                    <Text style={{ color: '#6495ED', textAlign: 'center' }}>{Category.Salary}</Text>
                                 </View>
                             </View>
 
@@ -95,9 +101,9 @@ class NewIncome extends Component {
                                     <Icon
                                         name="piggy-bank"
                                         style={{ fontSize: 45, color: "#DB7093" }}
-                                        onPress={() => console.log("bills")}
+                                        onPress={() => this.submit('savings')}
                                     />
-                                    <Text style={{ color: '#DB7093', textAlign: 'center' }}>Savings</Text>
+                                    <Text style={{ color: '#DB7093', textAlign: 'center' }}>{Category.Savings}</Text>
                                 </View>
                             </View>
                         </View>
@@ -165,4 +171,5 @@ export default connect(mapStateToProps, {
     incomeChanged,
     errorMsgChanged,
     changeShowIncomeKeyboard,
+    submitIncome
 })(NewIncome);
