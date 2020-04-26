@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Scene, Router, Actions } from 'react-native-router-flux';
-import ReduxExample from './ReduxExample';
-import Monefy from './components/Monefy';
-import NewIncome from './components/NewIncome';
-import NewExpense from './components/NewExpense';
+import { Actions, Router, Scene } from 'react-native-router-flux';
 import ChooseCategory from './components/ChooseCategory';
+import Monefy from './components/Monefy';
+import NewExpense from './components/NewExpense';
+import NewIncome from './components/NewIncome';
+import ReduxExample from './ReduxExample';
 
 const RouterComponent = () => {
     return (
@@ -15,9 +15,6 @@ const RouterComponent = () => {
             sceneStyle={{ backgroundColor: '#F0FFF0' }}
         >
             <Scene key="root" hideNavBar>
-                {/* <Scene key="auth">
-                    <Scene key="login" component={ReduxExample} title="Please Login"  />
-                </Scene> */}
                 <Scene key="main">
                     <Scene
                         rightTitle="Second page"
@@ -34,8 +31,6 @@ const RouterComponent = () => {
                         initial
                     />
                     <Scene
-                        // rightTitle="Add"
-                        // onLeft={() => { Actions.Monefy() }}
                         key="newIncome"
                         component={NewIncome}
                         title="New Income"

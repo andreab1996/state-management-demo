@@ -10,11 +10,12 @@ import Pie from 'react-native-pie';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { changeShowState, expensesFetch, incomeFetch, changeItemStatus } from '../actions';
+import { changeItemStatus, changeShowState, expensesFetch, incomeFetch } from '../actions';
 import { Card, CardSection, RoundButton } from './common';
 import { BalanceButton } from './common/BalanceButton';
 import { StateButton } from './common/StateButton';
 const DeviceWidth = Dimensions.get('window').width;
+const DeviceHeight = Dimensions.get('window').height;
 
 class Monefy extends Component {
 	componentWillMount() {
@@ -293,9 +294,9 @@ class Monefy extends Component {
 						onPress={() => Actions.newIncome()}
 					>
 						+
-            		</RoundButton>
+            				</RoundButton>
 				</View>
-			</Card >
+			</Card>
 		);
 	}
 }
