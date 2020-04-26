@@ -5,9 +5,9 @@ import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 const RoundButton = ({ onPress, children }) => {
     return (
         <TouchableOpacity
-            style={children === 'Expense' ? styles.buttonStyleExpence : styles.buttonStyleIncome}
+            style={children === '-' ? styles.buttonStyleExpence : styles.buttonStyleIncome}
             onPress={onPress}>
-            <Text style={children === 'Expense' ? styles.textsStyleExpence : styles.textsStyleIncome}>{children}</Text>
+            <Text style={children === '-' ? styles.textsStyleExpence : styles.textsStyleIncome}>{children}</Text>
         </TouchableOpacity>
     );
 };
@@ -15,39 +15,37 @@ const RoundButton = ({ onPress, children }) => {
 const styles = StyleSheet.create({
     textsStyleExpence: {
         alignSelf: 'center',
-        color: 'red',
-        fontSize: 16,
-        fontWeight: '600',
-        paddingTop: 10,
-        paddingBottom: 10,
+        color: '#F04545',
+        fontSize: 80,
+        fontWeight: '800',
+        paddingBottom: 15,
     },
     textsStyleIncome: {
         alignSelf: 'center',
-        color: 'green',
-        fontSize: 16,
+        color: '#3CB371',
+        fontSize: 50,
         fontWeight: '600',
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingBottom: 8,
     },
     buttonStyleExpence: {
-        borderWidth: 4,
+        borderWidth: 6,
         alignItems: 'center',
         justifyContent: 'center',
         width: 100,
         height: 100,
-        backgroundColor: '#fff',
+        backgroundColor: 'white',
         borderRadius: 50,
-        borderColor: 'red'
+        borderColor: '#F04545'
     },
     buttonStyleIncome: {
-        borderWidth: 4,
+        borderWidth: 6,
         alignItems: 'center',
         justifyContent: 'center',
         width: 100,
         height: 100,
-        backgroundColor: '#fff',
+        backgroundColor: 'white',
         borderRadius: 50,
-        borderColor: 'green'
+        borderColor: '#3CB371'
     }
 });
 

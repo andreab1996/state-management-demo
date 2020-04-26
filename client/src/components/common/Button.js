@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
-
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const Button = ({ onPress, children }) => {
     return (
@@ -34,3 +33,4 @@ const styles = StyleSheet.create({
 });
 
 export { Button };
+
