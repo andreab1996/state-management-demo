@@ -171,14 +171,14 @@ export default (state = INITIAL_STATE, action) => {
         case SHOW_STATE:
             return { ...state, showState: action.payload };
         case CHANGE_ITEM_STATUS:
-            let listState = state.stateList;
-            let item = listState.find(l => l.category === action.payload.category);
+            let updatedList = state.stateList;
+            let item = updatedList.find(l => l.category === action.payload.category);
             item.collapse = !action.payload.collapse;
-            
-            return { ...state, stateList: listState };
+
+            return { ...state, stateList: updatedList };
         case SUBMIT_EXPENSE:
             let totalExpense = state.totalExpense + Number(action.payload.expense);
-            console.log('total = ', totalExpense);
+
             state.categories.forEach(element => {
                 if (element.name === action.payload.category) {
                     element.quantity += Number(action.payload.expense);
@@ -205,7 +205,8 @@ export default (state = INITIAL_STATE, action) => {
                     });
                 }
             });
-            return { ...state, expense: '', totalExpense, sections, showExpanseKeyboard: !action.payload.showExpanseKeyboard };
+
+            return { ...state, expense: '', totalExpense, sections, showExpanseKeyboard: !action.payload.showExpanseKeyboard, showState: false };
         case EXPENSES_FETCH:
             let totalEx = 0;
             let mapExpense = new Map();
@@ -262,7 +263,7 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, sections, totalExpense: totalEx, stateDictionary: mapExpense, stateList: list };
         case SUBMIT_INCOME:
             let newIncome = state.totalIncome + Number(action.payload.income);
-            return { ...state, totalIncome: newIncome, income: '', showIncomeKeyboard: !action.payload.showIncomeKeyboard };
+            return { ...state, totalIncome: newIncome, income: '', showIncomeKeyboard: !action.payload.showIncomeKeyboard, showState: false };
         case INCOME_FETCH:
             let totalIn = 0;
             let mapIncome = state.stateDictionary;
@@ -309,15 +310,8 @@ export default (state = INITIAL_STATE, action) => {
                     }
                 });
             }
-
-            // listIncome.forEach(element => {
-            //     element.items.forEach(el => {
-            //         console.log(el);
-            //     });
-            // });
-
             listIncome.sort(compare);
-            // console.log(listIncome);
+
             return { ...state, totalIncome: totalIn, stateDictionary: mapIncome, stateList: listIncome };
         case ERROR_MSG_CHANGED:
             return { ...state, errorMsg: action.payload };
