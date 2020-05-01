@@ -11,7 +11,8 @@ import {
     SUBMIT_INCOME,
     INCOME_FETCH,
     SHOW_STATE,
-    CHANGE_ITEM_STATUS
+    CHANGE_ITEM_STATUS,
+    DELETE_EXPENSE
 } from './types';
 
 export const incomeChanged = (text) => {
@@ -25,6 +26,13 @@ export const expenseChanged = (text) => {
     return {
         type: EXPENSE_CHANGED,
         payload: text
+    };
+};
+
+export const deleteExpense = () => {
+    return {
+        type: DELETE_EXPENSE,
+        payload: ''
     };
 };
 

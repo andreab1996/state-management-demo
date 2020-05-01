@@ -15,13 +15,14 @@ const styles = StyleSheet.create({
     textsStyle: {
         alignSelf: 'center',
         color: 'white',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: '600',
         paddingTop: 10,
         paddingBottom: 10,
     },
     buttonStyle: {
         flex: 1,
+        height: 50,
         alignSelf: 'stretch',
         backgroundColor: '#3CB371',
         borderRadius: 5,
@@ -29,6 +30,8 @@ const styles = StyleSheet.create({
         borderColor: '#00FF7F',
         marginLeft: 5,
         marginRight: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 

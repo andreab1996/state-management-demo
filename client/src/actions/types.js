@@ -4,6 +4,7 @@ export const FULL_NAME_CHANGED = 'full_name_changed';
 
 export const INCOME_CHANGED = 'income_changed';
 export const EXPENSE_CHANGED = 'expanse_changed';
+export const DELETE_EXPENSE = 'delete_expense';
 
 export const ERROR_MSG_CHANGED = 'error_msg_changed';
 

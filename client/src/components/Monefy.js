@@ -263,7 +263,7 @@ class Monefy extends Component {
 
 				<View style={{
 					flexDirection: 'row',
-					marginTop: 10
+					marginTop: 10,
 				}}>
 					<RoundButton
 						onPress={() => Actions.newExpense()}

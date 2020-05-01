@@ -10,7 +10,8 @@ import {
     SUBMIT_INCOME,
     INCOME_FETCH,
     SHOW_STATE,
-    CHANGE_ITEM_STATUS
+    CHANGE_ITEM_STATUS,
+    DELETE_EXPENSE
 } from '../actions/types';
 import { encodeDateWithoutTime } from '../util/encodingDateWithoutTime';
 
@@ -26,6 +27,7 @@ const INITIAL_STATE = {
     showState: false,
     stateDictionary: new Map(),
     stateList: [],
+    operation: '',
     sections: [
         {
             percentage: 100, color: '#A9A9A9', name: 'empty'
@@ -163,7 +165,38 @@ export default (state = INITIAL_STATE, action) => {
         case INCOME_CHANGED:
             return { ...state, income: action.payload, errorMsg: '' };
         case EXPENSE_CHANGED:
-            return { ...state, expense: action.payload, errorMsg: '' };
+            let key = action.payload;
+            let expense = state.expense;
+            let operation = state.operation;
+            switch (key) {
+                case '+':
+                    return { ...state, operation: '+' };
+                case '-':
+                    return { ...state, operation: '-' };
+                case 'x':
+                    return { ...state, operation: 'x' };
+                case '/':
+                    return { ...state, operation: '/' };
+                case '.':
+                    expense = `${expense}.`;
+                    return { ...state, operation: '.', expense };
+                default:
+                    if (operation !== '') {
+                        if (operation === '+') { expense = (Number(expense) + Number(action.payload)).toString(); }
+                        if (operation === '-') { expense = (Number(expense) - Number(action.payload)).toString(); }
+                        if (operation === 'x') { expense = (Number(expense) * Number(action.payload)).toString(); }
+                        if (operation === '/') { expense = (Number(expense) / Number(action.payload)).toString(); }
+                        console.log('------', expense);
+                    } else {
+                        expense = `${expense}${action.payload}`;
+                        console.log('===============', expense);
+                    }
+                    return { ...state, expense, operation: '', errorMsg: '' };
+            }
+        case DELETE_EXPENSE:
+            let current = state.expense;
+            let newExpense = current.slice(0, -1);
+            return { ...state, expense: newExpense };
         case SHOW_INCOME_KEYBOARD:
             return { ...state, showIncomeKeyboard: action.payload };
         case SHOW_EXPENSE_KEYBOARD:

@@ -6,19 +6,28 @@ import { TextInput } from 'react-native-gesture-handler';
 import { VirtualKeyboard } from 'react-native-screen-keyboard';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { changeShowExpanseKeyboard, errorMsgChanged, expenseChanged, submitExpense } from '../actions';
+import { changeShowExpanseKeyboard, errorMsgChanged, expenseChanged, submitExpense, deleteExpense } from '../actions';
 import { Button, Card, CardSection } from './common';
 import { Category } from '../util/Category';
+import { Keyboard } from './common/Keyboard';
 const DeviceWidth = Dimensions.get('window').width;
 class NewExpense extends Component {
+    constructor(props) {
+        super(props);
+        this.keyDown = this.keyDown.bind(this);
+    }
+
     handleKeyPress() {
         const { expense } = this.props;
         this.props.expenseChanged(expense);
     }
 
     keyDown(key) {
-        // console.log(key);
         this.props.expenseChanged(key);
+    }
+
+    onBackspace() {
+        this.props.deleteExpense();
     }
 
     chooseCategory() {
@@ -40,30 +49,44 @@ class NewExpense extends Component {
         return (
             <Card>
                 <View style={styles.expenseInput}>
-                    <Icon name="money-bill-alt" style={{ fontSize: 40, color: "white", alignSelf: 'center' }} />
+                    <View style={{ justifyContent: 'center' }}>
+                        <Icon name="money-bill-alt" style={{ fontSize: 40, color: "white", alignSelf: 'center' }} />
+                        <Text style={{ color: 'white', fontSize: 10, textAlign: 'center' }}>BAM</Text>
+                    </View>
                     <TextInput value={this.props.expense} style={styles.expense} />
+                    <Icon
+                        onPress={() => this.onBackspace()}
+                        name="backspace"
+                        style={{ fontSize: 30, color: "white", alignSelf: 'center' }}
+                    />
                 </View>
 
                 <Text style={styles.errorMsg}>
                     {this.props.errorMsg}
                 </Text>
 
-                {this.props.showExpanseKeyboard &&
-                    <View style={styles.keyboard}>
-                        <VirtualKeyboard
-                            onRef={ref => (this.keyboard = ref)}
-                            onChange={this.keyDown.bind(this)}
+                {this.props.showExpanseKeyboard === true ?
+                    // <View style={styles.keyboard}>
+                    //     <VirtualKeyboard
+                    //         onRef={ref => (this.keyboard = ref)}
+                    //         onChange={this.keyDown.bind(this)}
+                    //     />
+                    // </View>
+
+                    <View style={{ flexDirection: 'column' }}>
+                        <Keyboard
+                            onPress={this.keyDown}
                         />
-                    </View>
-                }
-                {this.props.showExpanseKeyboard &&
-                    <CardSection>
-                        <Button
-                            onPress={this.chooseCategory.bind(this)}
-                        >
-                            CHOOSE CATEGORY
+                        <CardSection>
+                            <Button
+                                style={{ marginBottom: 0 }}
+                                onPress={this.chooseCategory.bind(this)}
+                            >
+                                CHOOSE CATEGORY
                         </Button>
-                    </CardSection>
+                        </CardSection>
+                    </View>
+                    : []
                 }
 
                 {this.props.showExpanseKeyboard !== true ?
@@ -212,9 +235,6 @@ class NewExpense extends Component {
 }
 
 const styles = StyleSheet.create({
-    hide: {
-        height: 0
-    },
     viewContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -246,15 +266,14 @@ const styles = StyleSheet.create({
         width: 400,
         height: 80,
         padding: 5,
-        textAlign: 'center',
-        textAlignVertical: 'center',
         marginTop: 10
     },
     expense: {
+        flex: 1,
         color: 'white',
-        fontSize: 20,
+        fontSize: 25,
         textAlign: 'center',
-        textAlignVertical: 'center'
+        justifyContent: 'center'
     }
 });
 
@@ -268,5 +287,6 @@ export default connect(mapStateToProps, {
     expenseChanged,
     errorMsgChanged,
     changeShowExpanseKeyboard,
-    submitExpense
+    submitExpense,
+    deleteExpense
 })(NewExpense);
