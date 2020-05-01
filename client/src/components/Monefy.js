@@ -15,7 +15,6 @@ import { Card, CardSection, RoundButton } from './common';
 import { BalanceButton } from './common/BalanceButton';
 import { StateButton } from './common/StateButton';
 const DeviceWidth = Dimensions.get('window').width;
-const DeviceHeight = Dimensions.get('window').height;
 
 class Monefy extends Component {
 	componentWillMount() {
@@ -34,6 +33,7 @@ class Monefy extends Component {
 
 	changeItemStatus(item) {
 		this.props.changeItemStatus(item);
+		this.setState({ collapsed: !item.collapsed})
 	}
 
 	render() {
@@ -242,7 +242,7 @@ class Monefy extends Component {
 					/>
 				</CardSection>
 
-				{this.props.showState === true ?
+				{this.props.showState ?
 					<ScrollView
 						style={{ height: 383 }}
 					>
@@ -258,7 +258,8 @@ class Monefy extends Component {
 							})
 						}
 					</ScrollView>
-					: []}
+					: []
+				}
 
 				<View style={{
 					flexDirection: 'row',
@@ -294,7 +295,7 @@ class Monefy extends Component {
 						onPress={() => Actions.newIncome()}
 					>
 						+
-            				</RoundButton>
+					</RoundButton>
 				</View>
 			</Card>
 		);
@@ -318,9 +319,25 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ monefy }) => {
-	const { currentDate, totalIncome, totalExpense, sections, expenses, showState, stateList } = monefy;
+	const {
+		currentDate,
+		totalIncome,
+		totalExpense,
+		sections,
+		expenses,
+		showState,
+		stateList
+	} = monefy;
 
-	return { currentDate, totalIncome, totalExpense, sections, expenses, showState, stateList };
+	return {
+		currentDate,
+		totalIncome,
+		totalExpense,
+		sections,
+		expenses,
+		showState,
+		stateList
+	};
 };
 
 export default connect(mapStateToProps, {

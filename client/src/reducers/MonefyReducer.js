@@ -174,8 +174,8 @@ export default (state = INITIAL_STATE, action) => {
             let listState = state.stateList;
             let item = listState.find(l => l.category === action.payload.category);
             item.collapse = !action.payload.collapse;
-
-            return { ...state, stateList: listState, showState: true };
+            
+            return { ...state, stateList: listState };
         case SUBMIT_EXPENSE:
             let totalExpense = state.totalExpense + Number(action.payload.expense);
             console.log('total = ', totalExpense);
@@ -205,7 +205,7 @@ export default (state = INITIAL_STATE, action) => {
                     });
                 }
             });
-            return { ...state, expense: '', totalExpense, sections, showExpanseKeyboard: !action.payload.showExpanseKeyboard, showState: !state.showState };
+            return { ...state, expense: '', totalExpense, sections, showExpanseKeyboard: !action.payload.showExpanseKeyboard };
         case EXPENSES_FETCH:
             let totalEx = 0;
             let mapExpense = new Map();
@@ -262,7 +262,7 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, sections, totalExpense: totalEx, stateDictionary: mapExpense, stateList: list };
         case SUBMIT_INCOME:
             let newIncome = state.totalIncome + Number(action.payload.income);
-            return { ...state, totalIncome: newIncome, income: '', showIncomeKeyboard: !action.payload.showIncomeKeyboard, showState: !state.showState };
+            return { ...state, totalIncome: newIncome, income: '', showIncomeKeyboard: !action.payload.showIncomeKeyboard };
         case INCOME_FETCH:
             let totalIn = 0;
             let mapIncome = state.stateDictionary;

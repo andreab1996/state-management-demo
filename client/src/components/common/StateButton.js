@@ -27,7 +27,6 @@ const StateButton = ({ onPress, children }) => {
                         <Text style={{ fontSize: 18, color: `${icon.color}` }}>
                             {children.category.charAt(0).toUpperCase() + children.category.slice(1)}
                         </Text>
-                        {/* <Text style={styles.circle}> {children.items.length}</Text> */}
                     </Text>
                     <Text style={children.type === 'income' ? styles.textsStyleIncome : styles.textsStyleExpense}>
                         <Text style={{ fontSize: 10 }}>BAM</Text>
