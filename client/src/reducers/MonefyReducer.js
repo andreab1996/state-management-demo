@@ -11,7 +11,8 @@ import {
     INCOME_FETCH,
     SHOW_STATE,
     CHANGE_ITEM_STATUS,
-    DELETE_EXPENSE
+    DELETE_EXPENSE,
+    DELETE_INCOME
 } from '../actions/types';
 import { encodeDateWithoutTime } from '../util/encodingDateWithoutTime';
 
@@ -163,7 +164,32 @@ export default (state = INITIAL_STATE, action) => {
     let now = encodeDateWithoutTime(new Date());
     switch (action.type) {
         case INCOME_CHANGED:
-            return { ...state, income: action.payload, errorMsg: '' };
+            let incomeKey = action.payload;
+            let income = state.income;
+            let incomeOperation = state.operation;
+            switch (incomeKey) {
+                case '+':
+                    return { ...state, operation: '+' };
+                case '-':
+                    return { ...state, operation: '-' };
+                case 'x':
+                    return { ...state, operation: 'x' };
+                case '/':
+                    return { ...state, operation: '/' };
+                case '.':
+                    income = `${income}.`;
+                    return { ...state, operation: '.', income };
+                default:
+                    if (incomeOperation !== '') {
+                        if (incomeOperation === '+') { income = (Number(income) + Number(action.payload)).toString(); }
+                        if (incomeOperation === '-') { income = (Number(income) - Number(action.payload)).toString(); }
+                        if (incomeOperation === 'x') { income = (Number(income) * Number(action.payload)).toString(); }
+                        if (incomeOperation === '/') { income = (Number(income) / Number(action.payload)).toString(); }
+                    } else {
+                        income = `${income}${action.payload}`;
+                    }
+                    return { ...state, income, operation: '', errorMsg: '' };
+            }
         case EXPENSE_CHANGED:
             let key = action.payload;
             let expense = state.expense;
@@ -186,13 +212,15 @@ export default (state = INITIAL_STATE, action) => {
                         if (operation === '-') { expense = (Number(expense) - Number(action.payload)).toString(); }
                         if (operation === 'x') { expense = (Number(expense) * Number(action.payload)).toString(); }
                         if (operation === '/') { expense = (Number(expense) / Number(action.payload)).toString(); }
-                        console.log('------', expense);
                     } else {
                         expense = `${expense}${action.payload}`;
-                        console.log('===============', expense);
                     }
                     return { ...state, expense, operation: '', errorMsg: '' };
             }
+        case DELETE_INCOME:
+            let currentIncome = state.income;
+            let newIncome = currentIncome.slice(0, -1);
+            return { ...state, income: newIncome };
         case DELETE_EXPENSE:
             let current = state.expense;
             let newExpense = current.slice(0, -1);
@@ -202,7 +230,14 @@ export default (state = INITIAL_STATE, action) => {
         case SHOW_EXPENSE_KEYBOARD:
             return { ...state, showExpanseKeyboard: action.payload };
         case SHOW_STATE:
-            return { ...state, showState: action.payload };
+            let monefyList = state.stateList;
+            monefyList = monefyList.map(m => {
+                return {
+                    ...m,
+                    collapse: false
+                };
+            });
+            return { ...state, showState: action.payload, stateList: monefyList };
         case CHANGE_ITEM_STATUS:
             let updatedList = state.stateList;
             let item = updatedList.find(l => l.category === action.payload.category);
@@ -295,8 +330,8 @@ export default (state = INITIAL_STATE, action) => {
 
             return { ...state, sections, totalExpense: totalEx, stateDictionary: mapExpense, stateList: list };
         case SUBMIT_INCOME:
-            let newIncome = state.totalIncome + Number(action.payload.income);
-            return { ...state, totalIncome: newIncome, income: '', showIncomeKeyboard: !action.payload.showIncomeKeyboard, showState: false };
+            let newIncomes = state.totalIncome + Number(action.payload.income);
+            return { ...state, totalIncome: newIncomes, income: '', showIncomeKeyboard: !action.payload.showIncomeKeyboard, showState: false };
         case INCOME_FETCH:
             let totalIn = 0;
             let mapIncome = state.stateDictionary;

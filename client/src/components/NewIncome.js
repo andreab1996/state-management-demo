@@ -3,23 +3,31 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { VirtualKeyboard } from 'react-native-screen-keyboard';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { changeShowIncomeKeyboard, errorMsgChanged, incomeChanged, submitIncome } from '../actions';
-import { Button, Card, CardSection } from './common';
+import { changeShowIncomeKeyboard, deleteIncome, errorMsgChanged, incomeChanged, submitIncome } from '../actions';
 import { Category } from '../util/Category';
+import { Button, Card, CardSection } from './common';
+import { Keyboard } from './common/Keyboard';
 const DeviceWidth = Dimensions.get('window').width;
 
 class NewIncome extends Component {
+    constructor(props) {
+        super(props);
+        this.keyDown = this.keyDown.bind(this);
+    }
+
     handleKeyPress() {
         const { income } = this.props;
         this.props.incomeChanged(income);
     }
 
     keyDown(key) {
-        console.log(key);
         this.props.incomeChanged(key);
+    }
+
+    onBackspace() {
+        this.props.deleteIncome();
     }
 
     chooseCategory(show) {
@@ -35,38 +43,43 @@ class NewIncome extends Component {
         const { income, showIncomeKeyboard } = this.props;
 
         this.props.submitIncome({ income, category, showIncomeKeyboard });
-        // this.props.changeShowExpanseKeyboard(showExpanseKeyboard);
     }
 
     render() {
         return (
             <Card>
                 <View style={styles.incomeInput}>
-                    <Icon name="money-bill-alt" style={{ fontSize: 40, color: "white", paddingTop: 5, alignSelf: 'center' }} />
+                    <View style={{ justifyContent: 'center' }}>
+                        <Icon name="money-bill-alt" style={{ fontSize: 40, color: "white", alignSelf: 'center' }} />
+                        <Text style={{ color: 'white', fontSize: 10, textAlign: 'center' }}>BAM</Text>
+                    </View>
                     <TextInput value={this.props.income} style={styles.income} />
+                    <Icon
+                        onPress={() => this.onBackspace()}
+                        name="backspace"
+                        style={{ fontSize: 30, color: "white", alignSelf: 'center' }}
+                    />
                 </View>
 
                 <Text style={styles.errorMsg}>
                     {this.props.errorMsg}
                 </Text>
 
-                {this.props.showIncomeKeyboard &&
-                    <View style={styles.keyboard}>
-                        <VirtualKeyboard
-                            // keyboardStyle={styles.keyboard}
-                            onRef={ref => (this.keyboard = ref)}
-                            onChange={this.keyDown.bind(this)}
+                {this.props.showIncomeKeyboard === true ?
+                    <View style={{ flexDirection: 'column' }}>
+                        <Keyboard
+                            onPress={this.keyDown}
                         />
-                    </View>
-                }
-                {this.props.showIncomeKeyboard &&
-                    <CardSection>
-                        <Button
-                            onPress={this.chooseCategory.bind(this)}
-                        >
-                            CHOOSE CATEGORY
+                        <CardSection>
+                            <Button
+                                style={{ marginBottom: 0 }}
+                                onPress={this.chooseCategory.bind(this)}
+                            >
+                                CHOOSE CATEGORY
                         </Button>
-                    </CardSection>
+                        </CardSection>
+                    </View>
+                    : []
                 }
 
                 {this.props.showIncomeKeyboard !== true ?
@@ -153,6 +166,7 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     income: {
+        flex: 1,
         color: 'white',
         fontSize: 20,
         textAlign: 'center',
@@ -171,5 +185,6 @@ export default connect(mapStateToProps, {
     incomeChanged,
     errorMsgChanged,
     changeShowIncomeKeyboard,
-    submitIncome
+    submitIncome,
+    deleteIncome
 })(NewIncome);

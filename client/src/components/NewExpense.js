@@ -3,12 +3,11 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { VirtualKeyboard } from 'react-native-screen-keyboard';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { changeShowExpanseKeyboard, errorMsgChanged, expenseChanged, submitExpense, deleteExpense } from '../actions';
-import { Button, Card, CardSection } from './common';
+import { changeShowExpanseKeyboard, deleteExpense, errorMsgChanged, expenseChanged, submitExpense } from '../actions';
 import { Category } from '../util/Category';
+import { Button, Card, CardSection } from './common';
 import { Keyboard } from './common/Keyboard';
 const DeviceWidth = Dimensions.get('window').width;
 class NewExpense extends Component {
@@ -66,13 +65,6 @@ class NewExpense extends Component {
                 </Text>
 
                 {this.props.showExpanseKeyboard === true ?
-                    // <View style={styles.keyboard}>
-                    //     <VirtualKeyboard
-                    //         onRef={ref => (this.keyboard = ref)}
-                    //         onChange={this.keyDown.bind(this)}
-                    //     />
-                    // </View>
-
                     <View style={{ flexDirection: 'column' }}>
                         <Keyboard
                             onPress={this.keyDown}
