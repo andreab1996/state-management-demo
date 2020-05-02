@@ -5,12 +5,13 @@
 /* eslint-disable react/self-closing-comp */
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import DatePicker from 'react-native-datepicker';
 import { ScrollView } from 'react-native-gesture-handler';
 import Pie from 'react-native-pie';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { changeItemStatus, changeShowState, expensesFetch, incomeFetch } from '../actions';
+import { changeItemStatus, changeShowState, expensesFetch, incomeFetch, changeDate } from '../actions';
 import { Card, CardSection, RoundButton } from './common';
 import { BalanceButton } from './common/BalanceButton';
 import { StateButton } from './common/StateButton';
@@ -33,14 +34,46 @@ class Monefy extends Component {
 
 	changeItemStatus(item) {
 		this.props.changeItemStatus(item);
-		this.setState({ collapsed: !item.collapsed})
+		this.setState({ collapsed: !item.collapsed })
+	}
+
+	onDateChange(date) {
+		this.props.changeDate(date);
+		this.props.expensesFetch();
+		this.props.incomeFetch();
+		console.log('finish');
 	}
 
 	render() {
 
 		return (
 			<Card>
-				<Text style={styles.currentDate}>{this.props.currentDate}</Text>
+				{/* <Text style={styles.currentDate}>{this.props.currentDate}</Text> */}
+				<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+					<DatePicker
+						style={{ width: 200 }}
+						date={this.props.date} //initial date from state
+						mode="date"
+						placeholder="Select date"
+						format="YYYY/MM/DD"
+						minDate="2020/01/01"
+						maxDate="2025/01/01"
+						confirmBtnText="Confirm"
+						cancelBtnText="Cancel"
+						customStyles={{
+							dateIcon: {
+								position: 'absolute',
+								left: 0,
+								top: 4,
+								marginLeft: 0
+							},
+							dateInput: {
+								marginLeft: 36
+							}
+						}}
+						onDateChange={(date) => this.onDateChange(date)}
+					/>
+				</View>
 
 				{this.props.showState !== true ?
 					<View style={{
@@ -326,7 +359,8 @@ const mapStateToProps = ({ monefy }) => {
 		sections,
 		expenses,
 		showState,
-		stateList
+		stateList,
+		date
 	} = monefy;
 
 	return {
@@ -336,7 +370,8 @@ const mapStateToProps = ({ monefy }) => {
 		sections,
 		expenses,
 		showState,
-		stateList
+		stateList,
+		date
 	};
 };
 
@@ -344,5 +379,6 @@ export default connect(mapStateToProps, {
 	expensesFetch,
 	incomeFetch,
 	changeShowState,
-	changeItemStatus
+	changeItemStatus,
+	changeDate
 })(Monefy);

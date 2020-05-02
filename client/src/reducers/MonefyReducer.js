@@ -1,9 +1,10 @@
 import _ from 'loadsh';
-import { CHANGE_ITEM_STATUS, DELETE_EXPENSE, DELETE_INCOME, ERROR_MSG_CHANGED, EXPENSES_FETCH, EXPENSE_CHANGED, INCOME_CHANGED, INCOME_FETCH, SHOW_EXPENSE_KEYBOARD, SHOW_INCOME_KEYBOARD, SHOW_STATE, SUBMIT_EXPENSE, SUBMIT_INCOME } from '../actions/types';
+import { CHANGE_ITEM_STATUS, DELETE_EXPENSE, DELETE_INCOME, ERROR_MSG_CHANGED, EXPENSES_FETCH, EXPENSE_CHANGED, INCOME_CHANGED, INCOME_FETCH, SHOW_EXPENSE_KEYBOARD, SHOW_INCOME_KEYBOARD, SHOW_STATE, SUBMIT_EXPENSE, SUBMIT_INCOME, CHANGE_DATE } from '../actions/types';
 import { encodeDateWithoutTime } from '../util/encodingDateWithoutTime';
 
 const INITIAL_STATE = {
     currentDate: '',
+    date: '',
     totalExpense: 0,
     totalIncome: 0,
     expense: '',
@@ -148,6 +149,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     let sections = state.sections;
     let now = encodeDateWithoutTime(new Date());
+    let date = state.date;
     switch (action.type) {
         case INCOME_CHANGED:
             let incomeKey = action.payload;
@@ -203,7 +205,6 @@ export default (state = INITIAL_STATE, action) => {
                     }
                     return { ...state, expense, operation: '', errorMsg: '' };
             }
-
         case DELETE_INCOME:
             let currentIncome = state.income;
             let newIncome = currentIncome.slice(0, -1);
@@ -212,12 +213,10 @@ export default (state = INITIAL_STATE, action) => {
             let current = state.expense;
             let newExpense = current.slice(0, -1);
             return { ...state, expense: newExpense };
-
         case SHOW_INCOME_KEYBOARD:
             return { ...state, showIncomeKeyboard: action.payload };
         case SHOW_EXPENSE_KEYBOARD:
             return { ...state, showExpanseKeyboard: action.payload };
-
         case SHOW_STATE:
             let monefyList = state.stateList;
             monefyList = monefyList.map(m => {
@@ -233,7 +232,8 @@ export default (state = INITIAL_STATE, action) => {
             item.collapse = !action.payload.collapse;
 
             return { ...state, stateList: updatedList };
-
+        case CHANGE_DATE:
+            return { ...state, date: action.payload, now: action.payload };
         case SUBMIT_EXPENSE:
             let totalExpense = state.totalExpense + Number(action.payload.expense);
 
@@ -273,6 +273,7 @@ export default (state = INITIAL_STATE, action) => {
                 showState: false
             };
         case EXPENSES_FETCH:
+            console.log('======================DAte=========', date);
             let totalEx = 0;
             let mapExpense = new Map();
             let list = [];
@@ -280,7 +281,8 @@ export default (state = INITIAL_STATE, action) => {
                 let currentDate = new Date(val.date);
                 return { ...val, date: encodeDateWithoutTime(currentDate) };
             });
-            expenses = expenses.filter(e => e.date === now);
+            if (date === '') { expenses = expenses.filter(e => e.date === now); }
+            if (date !== '') { expenses = expenses.filter(e => e.date === date); }
             if (expenses.length === 0) {
                 return { ...state, sections, totalExpense: totalEx, stateDictionary: mapExpense };
             }
@@ -330,7 +332,8 @@ export default (state = INITIAL_STATE, action) => {
                 sections,
                 totalExpense: totalEx,
                 stateDictionary: mapExpense,
-                stateList: list
+                stateList: list,
+                date: date !== '' ? date : now
             };
         case SUBMIT_INCOME:
             let submitedIncome = state.totalIncome + Number(action.payload.income);
@@ -349,7 +352,8 @@ export default (state = INITIAL_STATE, action) => {
                 let currentDate = new Date(val.date);
                 return { ...val, date: encodeDateWithoutTime(currentDate) };
             });
-            incomes = incomes.filter(e => e.date === now);
+            if (date === '') { incomes = incomes.filter(e => e.date === now); }
+            if (date !== '') { incomes = incomes.filter(e => e.date === date); }
 
             if (incomes.length === 0) {
                 return { ...state, totalIncome: totalIn, stateDictionary: mapIncome };
@@ -393,7 +397,8 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 totalIncome: totalIn,
                 stateDictionary: mapIncome,
-                stateList: listIncome
+                stateList: listIncome,
+                date: date !== '' ? date : now
             };
         case ERROR_MSG_CHANGED:
             return { ...state, errorMsg: action.payload };

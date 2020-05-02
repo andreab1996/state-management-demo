@@ -13,7 +13,8 @@ import {
     SHOW_STATE,
     CHANGE_ITEM_STATUS,
     DELETE_EXPENSE,
-    DELETE_INCOME
+    DELETE_INCOME,
+    CHANGE_DATE
 } from './types';
 
 export const incomeChanged = (text) => {
@@ -76,6 +77,13 @@ export const errorMsgChanged = (text) => {
     return {
         type: ERROR_MSG_CHANGED,
         payload: text
+    };
+};
+
+export const changeDate = (date) => {
+    return {
+        type: CHANGE_DATE,
+        payload: date
     };
 };
 

@@ -6,6 +6,7 @@ export const INCOME_CHANGED = 'income_changed';
 export const EXPENSE_CHANGED = 'expanse_changed';
 export const DELETE_EXPENSE = 'delete_expense';
 export const DELETE_INCOME = 'delete_income';
+export const CHANGE_DATE = 'change_date';
 
 export const ERROR_MSG_CHANGED = 'error_msg_changed';
 
