@@ -1,19 +1,5 @@
 import _ from 'loadsh';
-import {
-    ERROR_MSG_CHANGED,
-    EXPENSES_FETCH,
-    EXPENSE_CHANGED,
-    INCOME_CHANGED,
-    SHOW_EXPENSE_KEYBOARD,
-    SHOW_INCOME_KEYBOARD,
-    SUBMIT_EXPENSE,
-    SUBMIT_INCOME,
-    INCOME_FETCH,
-    SHOW_STATE,
-    CHANGE_ITEM_STATUS,
-    DELETE_EXPENSE,
-    DELETE_INCOME
-} from '../actions/types';
+import { CHANGE_ITEM_STATUS, DELETE_EXPENSE, DELETE_INCOME, ERROR_MSG_CHANGED, EXPENSES_FETCH, EXPENSE_CHANGED, INCOME_CHANGED, INCOME_FETCH, SHOW_EXPENSE_KEYBOARD, SHOW_INCOME_KEYBOARD, SHOW_STATE, SUBMIT_EXPENSE, SUBMIT_INCOME } from '../actions/types';
 import { encodeDateWithoutTime } from '../util/encodingDateWithoutTime';
 
 const INITIAL_STATE = {
@@ -217,6 +203,7 @@ export default (state = INITIAL_STATE, action) => {
                     }
                     return { ...state, expense, operation: '', errorMsg: '' };
             }
+
         case DELETE_INCOME:
             let currentIncome = state.income;
             let newIncome = currentIncome.slice(0, -1);
@@ -225,10 +212,12 @@ export default (state = INITIAL_STATE, action) => {
             let current = state.expense;
             let newExpense = current.slice(0, -1);
             return { ...state, expense: newExpense };
+
         case SHOW_INCOME_KEYBOARD:
             return { ...state, showIncomeKeyboard: action.payload };
         case SHOW_EXPENSE_KEYBOARD:
             return { ...state, showExpanseKeyboard: action.payload };
+
         case SHOW_STATE:
             let monefyList = state.stateList;
             monefyList = monefyList.map(m => {
@@ -244,6 +233,7 @@ export default (state = INITIAL_STATE, action) => {
             item.collapse = !action.payload.collapse;
 
             return { ...state, stateList: updatedList };
+
         case SUBMIT_EXPENSE:
             let totalExpense = state.totalExpense + Number(action.payload.expense);
 
@@ -274,7 +264,14 @@ export default (state = INITIAL_STATE, action) => {
                 }
             });
 
-            return { ...state, expense: '', totalExpense, sections, showExpanseKeyboard: !action.payload.showExpanseKeyboard, showState: false };
+            return {
+                ...state,
+                expense: '',
+                totalExpense,
+                sections,
+                showExpanseKeyboard: !action.payload.showExpanseKeyboard,
+                showState: false
+            };
         case EXPENSES_FETCH:
             let totalEx = 0;
             let mapExpense = new Map();
@@ -289,10 +286,10 @@ export default (state = INITIAL_STATE, action) => {
             }
 
             if (expenses.length > 0) {
-                let expense = expenses.reduce((total, amount) => {
+                let inTotalExpense = expenses.reduce((total, amount) => {
                     return { expense: Number(total.expense) + Number(amount.expense) };
                 });
-                totalEx = expense.expense;
+                totalEx = inTotalExpense.expense;
             }
 
             sections.map(s => {
@@ -328,10 +325,22 @@ export default (state = INITIAL_STATE, action) => {
                 }
             });
 
-            return { ...state, sections, totalExpense: totalEx, stateDictionary: mapExpense, stateList: list };
+            return {
+                ...state,
+                sections,
+                totalExpense: totalEx,
+                stateDictionary: mapExpense,
+                stateList: list
+            };
         case SUBMIT_INCOME:
-            let newIncomes = state.totalIncome + Number(action.payload.income);
-            return { ...state, totalIncome: newIncomes, income: '', showIncomeKeyboard: !action.payload.showIncomeKeyboard, showState: false };
+            let submitedIncome = state.totalIncome + Number(action.payload.income);
+            return {
+                ...state,
+                totalIncome: submitedIncome,
+                income: '',
+                showIncomeKeyboard: !action.payload.showIncomeKeyboard,
+                showState: false
+            };
         case INCOME_FETCH:
             let totalIn = 0;
             let mapIncome = state.stateDictionary;
@@ -347,10 +356,10 @@ export default (state = INITIAL_STATE, action) => {
             }
             // calculate total income
             if (incomes.length > 0) {
-                let income = incomes.reduce((total, amount) => {
+                let intTotalIncome = incomes.reduce((total, amount) => {
                     return { income: Number(total.income) + Number(amount.income) };
                 });
-                totalIn = income.income;
+                totalIn = intTotalIncome.income;
 
                 incomes.forEach(element => {
                     if (!mapIncome.has(element.category)) {
@@ -380,7 +389,12 @@ export default (state = INITIAL_STATE, action) => {
             }
             listIncome.sort(compare);
 
-            return { ...state, totalIncome: totalIn, stateDictionary: mapIncome, stateList: listIncome };
+            return {
+                ...state,
+                totalIncome: totalIn,
+                stateDictionary: mapIncome,
+                stateList: listIncome
+            };
         case ERROR_MSG_CHANGED:
             return { ...state, errorMsg: action.payload };
         default:
