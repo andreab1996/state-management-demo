@@ -17,7 +17,6 @@ import {
     CHANGE_DATE,
     ADD_FOR_CATEGORY,
     UPDATE_ITEM,
-    IS_EXISTS,
     RESET_STATE
 } from './types';
 
@@ -123,7 +122,6 @@ export const submitExpense = (text) => {
 };
 
 export const updateExpense = (item) => {
-    console.log(item);
     const { category, date, expense, uid } = item;
 
     return (dispatch) => {
@@ -154,7 +152,6 @@ export const submitIncome = (text) => {
 };
 
 export const updateIncome = (item) => {
-    console.log(item);
     const { category, date, income, uid } = item;
 
     return (dispatch) => {

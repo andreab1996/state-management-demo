@@ -42,7 +42,7 @@ class NewIncome extends Component {
     submit(category) {
         const { income, showIncomeKeyboard, itemForUpdate } = this.props;
 
-        if (itemForUpdate !== {}) {
+        if (Object.keys(itemForUpdate).length !== 0) {
             this.props.updateIncome({ ...itemForUpdate, income: income });
         } else {
             this.props.submitIncome({ income, category, showIncomeKeyboard });

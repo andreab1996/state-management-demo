@@ -195,9 +195,6 @@ export default (state = INITIAL_STATE, action) => {
             }
             console.log('==========================+++++++++++++', i, cat, newValue);
             return { ...state, category: cat, income: newValue, expense: newValue, itemForUpdate: i };
-        case IS_EXISTS:
-            console.log('andreaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-            return state.itemForUpdate;
         case EXPENSE_CHANGED:
             let key = action.payload;
             let expense = state.expense;

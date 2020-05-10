@@ -44,9 +44,10 @@ class NewExpense extends Component {
             this.props.errorMsgChanged('You must enter a value!');
             return;
         }
-        if (itemForUpdate !== {}) {
+        if (Object.keys(itemForUpdate).length !== 0) {
             this.props.updateExpense({ ...itemForUpdate, expense: expense });
         } else {
+            console.log('submit');
             this.props.submitExpense({ expense, category, showExpanseKeyboard });
         }
     }

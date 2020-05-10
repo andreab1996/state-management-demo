@@ -54,7 +54,6 @@ class Monefy extends Component {
 	}
 
 	updateItem(item) {
-		console.log('update================', item);
 		this.props.updateItem(item);
 		if (item.category !== 'deposits' && item.category !== 'salary' && item.category !== 'savings') {
 			Actions.newExpense();
