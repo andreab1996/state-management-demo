@@ -14,7 +14,11 @@ import {
     CHANGE_ITEM_STATUS,
     DELETE_EXPENSE,
     DELETE_INCOME,
-    CHANGE_DATE
+    CHANGE_DATE,
+    ADD_FOR_CATEGORY,
+    UPDATE_ITEM,
+    IS_EXISTS,
+    RESET_STATE
 } from './types';
 
 export const incomeChanged = (text) => {
@@ -87,6 +91,20 @@ export const changeDate = (date) => {
     };
 };
 
+export const addExpenseForCategory = (text) => {
+    return {
+        type: ADD_FOR_CATEGORY,
+        payload: text
+    };
+};
+
+export const updateItem = (item) => {
+    return {
+        type: UPDATE_ITEM,
+        payload: item
+    };
+};
+
 export const submitExpense = (text) => {
     const { expense, category } = text;
     let date = firebase.database.ServerValue.TIMESTAMP;
@@ -104,6 +122,20 @@ export const submitExpense = (text) => {
     };
 };
 
+export const updateExpense = (item) => {
+    console.log(item);
+    const { category, date, expense, uid } = item;
+
+    return (dispatch) => {
+        firebase.database().ref(`/expense/${uid}`)
+            .set({ expense, category, date })
+            .then(() => {
+                dispatch({ type: RESET_STATE });
+                Actions.monefy({ type: 'reset' });
+            });
+    };
+};
+
 export const submitIncome = (text) => {
     const { income, category } = text;
     let date = firebase.database.ServerValue.TIMESTAMP;
@@ -116,6 +148,20 @@ export const submitIncome = (text) => {
                     type: SUBMIT_INCOME,
                     payload: text
                 });
+                Actions.monefy({ type: 'reset' });
+            });
+    };
+};
+
+export const updateIncome = (item) => {
+    console.log(item);
+    const { category, date, income, uid } = item;
+
+    return (dispatch) => {
+        firebase.database().ref(`/income/${uid}`)
+            .set({ income, category, date })
+            .then(() => {
+                dispatch({ type: RESET_STATE });
                 Actions.monefy({ type: 'reset' });
             });
     };

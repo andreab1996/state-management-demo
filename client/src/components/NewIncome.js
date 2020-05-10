@@ -1,11 +1,11 @@
 /* eslint-disable quotes */
 /* eslint-disable react-native/no-inline-styles */
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { changeShowIncomeKeyboard, deleteIncome, errorMsgChanged, incomeChanged, submitIncome } from '../actions';
+import { changeShowIncomeKeyboard, deleteIncome, errorMsgChanged, incomeChanged, submitIncome, updateIncome } from '../actions';
 import { Category } from '../util/Category';
 import { Button, Card, CardSection } from './common';
 import { Keyboard } from './common/Keyboard';
@@ -40,9 +40,13 @@ class NewIncome extends Component {
     }
 
     submit(category) {
-        const { income, showIncomeKeyboard } = this.props;
+        const { income, showIncomeKeyboard, itemForUpdate } = this.props;
 
-        this.props.submitIncome({ income, category, showIncomeKeyboard });
+        if (itemForUpdate !== {}) {
+            this.props.updateIncome({ ...itemForUpdate, income: income });
+        } else {
+            this.props.submitIncome({ income, category, showIncomeKeyboard });
+        }
     }
 
     render() {
@@ -71,12 +75,26 @@ class NewIncome extends Component {
                             onPress={this.keyDown}
                         />
                         <CardSection>
-                            <Button
-                                style={{ marginBottom: 0 }}
-                                onPress={this.chooseCategory.bind(this)}
-                            >
-                                CHOOSE CATEGORY
-                        </Button>
+                            {this.props.category !== null ?
+                                (
+                                    <TouchableOpacity
+                                        style={styles.buttonCategory}
+                                        onPress={() => this.submit(this.props.category.name)}
+                                    >
+                                        <Icon
+                                            name={this.props.category.icon}
+                                            style={{ fontSize: 35, color: `${this.props.category.color}` }}
+                                        />
+                                        <Text style={{ marginLeft: 10 }}>ADD '{this.props.category.name.toUpperCase()}'</Text>
+                                    </TouchableOpacity>
+                                ) :
+                                <Button
+                                    style={{ marginBottom: 0 }}
+                                    onPress={this.chooseCategory.bind(this)}
+                                >
+                                    CHOOSE CATEGORY
+                                </Button>
+                            }
                         </CardSection>
                     </View>
                     : []
@@ -171,14 +189,28 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         textAlignVertical: 'center'
+    },
+    buttonCategory: {
+        flex: 1,
+        flexDirection: 'row',
+        height: 50,
+        alignSelf: 'stretch',
+        backgroundColor: 'white',
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#3CB371',
+        marginLeft: 5,
+        marginRight: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
 
 const mapStateToProps = ({ monefy }) => {
-    const { income, errorMsg, showIncomeKeyboard } = monefy;
+    const { income, errorMsg, showIncomeKeyboard, category, itemForUpdate } = monefy;
 
-    return { income, errorMsg, showIncomeKeyboard };
+    return { income, errorMsg, showIncomeKeyboard, category, itemForUpdate };
 }
 
 export default connect(mapStateToProps, {
@@ -186,5 +218,6 @@ export default connect(mapStateToProps, {
     errorMsgChanged,
     changeShowIncomeKeyboard,
     submitIncome,
-    deleteIncome
+    deleteIncome,
+    updateIncome
 })(NewIncome);

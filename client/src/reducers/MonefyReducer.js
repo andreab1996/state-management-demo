@@ -1,5 +1,6 @@
 import _ from 'loadsh';
-import { CHANGE_ITEM_STATUS, DELETE_EXPENSE, DELETE_INCOME, ERROR_MSG_CHANGED, EXPENSES_FETCH, EXPENSE_CHANGED, INCOME_CHANGED, INCOME_FETCH, SHOW_EXPENSE_KEYBOARD, SHOW_INCOME_KEYBOARD, SHOW_STATE, SUBMIT_EXPENSE, SUBMIT_INCOME, CHANGE_DATE } from '../actions/types';
+import { ADD_FOR_CATEGORY, CHANGE_DATE, CHANGE_ITEM_STATUS, DELETE_EXPENSE, DELETE_INCOME, ERROR_MSG_CHANGED, EXPENSES_FETCH, EXPENSE_CHANGED, INCOME_CHANGED, INCOME_FETCH, SHOW_EXPENSE_KEYBOARD, SHOW_INCOME_KEYBOARD, SHOW_STATE, SUBMIT_EXPENSE, SUBMIT_INCOME, UPDATE_ITEM, IS_EXISTS, RESET_STATE } from '../actions/types';
+import { CategoryIcon } from '../util/CategoryIcon';
 import { encodeDateWithoutTime } from '../util/encodingDateWithoutTime';
 
 const INITIAL_STATE = {
@@ -16,6 +17,8 @@ const INITIAL_STATE = {
     stateDictionary: new Map(),
     stateList: [],
     operation: '',
+    category: null,
+    itemForUpdate: {},
     sections: [
         {
             percentage: 100, color: '#A9A9A9', name: 'empty'
@@ -151,6 +154,9 @@ export default (state = INITIAL_STATE, action) => {
     let now = encodeDateWithoutTime(new Date());
     let date = state.date;
     switch (action.type) {
+        case RESET_STATE:
+            let choosenDate = state.date;
+            return { ...INITIAL_STATE, date: choosenDate };
         case INCOME_CHANGED:
             let incomeKey = action.payload;
             let income = state.income;
@@ -178,6 +184,20 @@ export default (state = INITIAL_STATE, action) => {
                     }
                     return { ...state, income, operation: '', errorMsg: '' };
             }
+        case UPDATE_ITEM:
+            let i = action.payload;
+            let cat = CategoryIcon.find(f => f.name === i.category);
+            let newValue = 0;
+            if (i.category !== 'deposits' && i.category !== 'salary' && i.category !== 'savings') {
+                newValue = i.expense;
+            } else {
+                newValue = i.income;
+            }
+            console.log('==========================+++++++++++++', i, cat, newValue);
+            return { ...state, category: cat, income: newValue, expense: newValue, itemForUpdate: i };
+        case IS_EXISTS:
+            console.log('andreaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+            return state.itemForUpdate;
         case EXPENSE_CHANGED:
             let key = action.payload;
             let expense = state.expense;
@@ -205,6 +225,11 @@ export default (state = INITIAL_STATE, action) => {
                     }
                     return { ...state, expense, operation: '', errorMsg: '' };
             }
+
+        case ADD_FOR_CATEGORY:
+            let choosenCategory = action.payload;
+            let category = CategoryIcon.find(c => c.name === choosenCategory);
+            return { ...state, category };
         case DELETE_INCOME:
             let currentIncome = state.income;
             let newIncome = currentIncome.slice(0, -1);
@@ -269,17 +294,17 @@ export default (state = INITIAL_STATE, action) => {
                 expense: '',
                 totalExpense,
                 sections,
-                showExpanseKeyboard: !action.payload.showExpanseKeyboard,
-                showState: false
+                showExpanseKeyboard: true,
+                showState: false,
+                category: null
             };
         case EXPENSES_FETCH:
-            console.log('======================DAte=========', date);
             let totalEx = 0;
             let mapExpense = new Map();
             let list = [];
             let expenses = _.map(action.payload, (val, uid) => {
                 let currentDate = new Date(val.date);
-                return { ...val, date: encodeDateWithoutTime(currentDate) };
+                return { uid, ...val, date: encodeDateWithoutTime(currentDate) };
             });
             if (date === '') { expenses = expenses.filter(e => e.date === now); }
             if (date !== '') { expenses = expenses.filter(e => e.date === date); }
@@ -350,7 +375,7 @@ export default (state = INITIAL_STATE, action) => {
             let listIncome = state.stateList;
             let incomes = _.map(action.payload, (val, uid) => {
                 let currentDate = new Date(val.date);
-                return { ...val, date: encodeDateWithoutTime(currentDate) };
+                return { uid, ...val, date: encodeDateWithoutTime(currentDate) };
             });
             if (date === '') { incomes = incomes.filter(e => e.date === now); }
             if (date !== '') { incomes = incomes.filter(e => e.date === date); }

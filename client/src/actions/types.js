@@ -4,9 +4,13 @@ export const FULL_NAME_CHANGED = 'full_name_changed';
 
 export const INCOME_CHANGED = 'income_changed';
 export const EXPENSE_CHANGED = 'expanse_changed';
+export const ADD_FOR_CATEGORY = 'add_for_category';
+export const UPDATE_ITEM = 'update_item';
+export const IS_EXISTS = 'is_exists';
 export const DELETE_EXPENSE = 'delete_expense';
 export const DELETE_INCOME = 'delete_income';
 export const CHANGE_DATE = 'change_date';
+export const RESET_STATE = 'reset_state';
 
 export const ERROR_MSG_CHANGED = 'error_msg_changed';
 

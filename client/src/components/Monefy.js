@@ -4,20 +4,25 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/self-closing-comp */
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { ScrollView } from 'react-native-gesture-handler';
 import Pie from 'react-native-pie';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { changeItemStatus, changeShowState, expensesFetch, incomeFetch, changeDate } from '../actions';
+import { addExpenseForCategory, changeDate, changeItemStatus, changeShowState, expensesFetch, incomeFetch, updateItem } from '../actions';
 import { Card, CardSection, RoundButton } from './common';
 import { BalanceButton } from './common/BalanceButton';
-import { StateButton } from './common/StateButton';
+import StateButton from './common/StateButton';
 const DeviceWidth = Dimensions.get('window').width;
 
 class Monefy extends Component {
+	constructor(props) {
+		super(props);
+		this.updateItem = this.updateItem.bind(this);
+	}
+
 	componentWillMount() {
 		this.props.expensesFetch();
 		this.props.incomeFetch();
@@ -41,7 +46,22 @@ class Monefy extends Component {
 		this.props.changeDate(date);
 		this.props.expensesFetch();
 		this.props.incomeFetch();
-		console.log('finish');
+	}
+
+	addExpenseForCategory(category) {
+		this.props.addExpenseForCategory(category);
+		Actions.newExpense();
+	}
+
+	updateItem(item) {
+		console.log('update================', item);
+		this.props.updateItem(item);
+		if (item.category !== 'deposits' && item.category !== 'salary' && item.category !== 'savings') {
+			Actions.newExpense();
+		}
+		else {
+			Actions.newIncome();
+		}
 	}
 
 	render() {
@@ -83,34 +103,46 @@ class Monefy extends Component {
 						<View style={{
 							flexDirection: 'row',
 						}}>
-							<View style={styles.iconContainer}>
+							<TouchableOpacity
+								style={styles.iconContainer}
+								onPress={() => this.addExpenseForCategory('bills')}
+							>
 								<Icon
 									name="money-bill-alt"
 									style={{ fontSize: 40, color: 'orange' }}
 								/>
 								<Text style={{ color: 'orange', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'bills').percentage.toFixed(2)}%
-							</Text>
-							</View>
-							<View style={styles.iconContainer}>
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={styles.iconContainer}
+								onPress={() => this.addExpenseForCategory('car')}
+							>
 								<Icon
 									name="car"
 									style={{ fontSize: 40, color: 'gray' }}
 								/>
 								<Text style={{ color: 'gray', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'car').percentage.toFixed(2)}%
-							</Text>
-							</View>
-							<View style={styles.iconContainer}>
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={styles.iconContainer}
+								onPress={() => this.addExpenseForCategory('phone')}
+							>
 								<Icon
 									name="phone"
 									style={{ fontSize: 40, color: "#D2481D" }}
 								/>
 								<Text style={{ color: 'gray', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'phone').percentage.toFixed(2)}%
-							</Text>
-							</View>
-							<View style={styles.iconContainer}>
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={styles.iconContainer}
+								onPress={() => this.addExpenseForCategory('gift')}
+							>
 								<Icon
 									name="gift"
 									style={{ fontSize: 40, color: "#FF69B4" }}
@@ -118,7 +150,7 @@ class Monefy extends Component {
 								<Text style={{ color: '#FF69B4', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'gift').percentage.toFixed(2)}%
 							</Text>
-							</View>
+							</TouchableOpacity>
 						</View>
 
 						{/* 2. */}
@@ -128,7 +160,10 @@ class Monefy extends Component {
 							<View style={{
 								flexDirection: 'column'
 							}}>
-								<View style={styles.iconContainer}>
+								<TouchableOpacity
+									style={styles.iconContainer}
+									onPress={() => this.addExpenseForCategory('glass-martini-alt')}
+								>
 									<Icon
 										name="glass-martini-alt"
 										style={{ fontSize: 40, color: "#DC143C" }}
@@ -136,8 +171,11 @@ class Monefy extends Component {
 									<Text style={{ color: '#DC143C', textAlign: 'center' }}>
 										{this.props.sections.find(s => s.name === 'glass-martini-alt').percentage.toFixed(2)}%
 								</Text>
-								</View>
-								<View style={styles.iconContainer}>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={styles.iconContainer}
+									onPress={() => this.addExpenseForCategory('home')}
+								>
 									<Icon
 										name="home"
 										style={{ fontSize: 40, color: "#6495ED" }}
@@ -145,8 +183,11 @@ class Monefy extends Component {
 									<Text style={{ color: '#6495ED', textAlign: 'center' }}>
 										{this.props.sections.find(s => s.name === 'home').percentage.toFixed(2)}%
 								</Text>
-								</View>
-								<View style={styles.iconContainer}>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={styles.iconContainer}
+									onPress={() => this.addExpenseForCategory('dog')}
+								>
 									<Icon
 										name="dog"
 										style={{ fontSize: 40, color: "#800000" }}
@@ -154,7 +195,7 @@ class Monefy extends Component {
 									<Text style={{ color: '#800000', textAlign: 'center' }}>
 										{this.props.sections.find(s => s.name === 'dog').percentage.toFixed(2)}%
 								</Text>
-								</View>
+								</TouchableOpacity>
 							</View>
 							<View style={{
 								flexDirection: 'column',
@@ -171,7 +212,10 @@ class Monefy extends Component {
 							<View style={{
 								flexDirection: 'column'
 							}}>
-								<View style={styles.iconContainer}>
+								<TouchableOpacity
+									style={styles.iconContainer}
+									onPress={() => this.addExpenseForCategory('taxi')}
+								>
 									<Icon
 										name="taxi"
 										style={{ fontSize: 40, color: "#CCCC00" }}
@@ -179,8 +223,11 @@ class Monefy extends Component {
 									<Text style={{ color: '#CCCC00', textAlign: 'center' }}>
 										{this.props.sections.find(s => s.name === 'taxi').percentage.toFixed(2)}%
 								</Text>
-								</View>
-								<View style={styles.iconContainer}>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={styles.iconContainer}
+									onPress={() => this.addExpenseForCategory('train')}
+								>
 									<Icon
 										name="train"
 										style={{ fontSize: 40, color: "purple" }}
@@ -188,8 +235,11 @@ class Monefy extends Component {
 									<Text style={{ color: 'purple', textAlign: 'center' }}>
 										{this.props.sections.find(s => s.name === 'train').percentage.toFixed(2)}%
 								</Text>
-								</View>
-								<View style={styles.iconContainer}>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={styles.iconContainer}
+									onPress={() => this.addExpenseForCategory('pizza-slice')}
+								>
 									<Icon
 										name="pizza-slice"
 										style={{ fontSize: 40, color: "#FF4500" }}
@@ -197,7 +247,7 @@ class Monefy extends Component {
 									<Text style={{ color: '#FF4500', textAlign: 'center' }}>
 										{this.props.sections.find(s => s.name === 'pizza-slice').percentage.toFixed(2)}%
 								</Text>
-								</View>
+								</TouchableOpacity>
 							</View>
 						</View>
 
@@ -205,7 +255,10 @@ class Monefy extends Component {
 						<View style={{
 							flexDirection: 'row'
 						}}>
-							<View style={styles.iconContainer}>
+							<TouchableOpacity
+								style={styles.iconContainer}
+								onPress={() => this.addExpenseForCategory('tshirt')}
+							>
 								<Icon
 									name="tshirt"
 									style={{ fontSize: 40, color: "#DB7093" }}
@@ -213,8 +266,11 @@ class Monefy extends Component {
 								<Text style={{ color: '#DB7093', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'tshirt').percentage.toFixed(2)}%
 								</Text>
-							</View>
-							<View style={styles.iconContainer}>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={styles.iconContainer}
+								onPress={() => this.addExpenseForCategory('utensils')}
+							>
 								<Icon
 									name="utensils"
 									style={{ fontSize: 40, color: "#A52A2A" }}
@@ -222,8 +278,11 @@ class Monefy extends Component {
 								<Text style={{ color: '#A52A2A', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'utensils').percentage.toFixed(2)}%
 							</Text>
-							</View>
-							<View style={styles.iconContainer}>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={styles.iconContainer}
+								onPress={() => this.addExpenseForCategory('running')}
+							>
 								<Icon
 									name="running"
 									style={{ fontSize: 40, color: "#708090" }}
@@ -231,8 +290,11 @@ class Monefy extends Component {
 								<Text style={{ color: '#708090', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'running').percentage.toFixed(2)}%
 							</Text>
-							</View>
-							<View style={styles.iconContainer}>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={styles.iconContainer}
+								onPress={() => this.addExpenseForCategory('notes-medical')}
+							>
 								<Icon
 									name="notes-medical"
 									style={{ fontSize: 40, color: "red" }}
@@ -240,10 +302,11 @@ class Monefy extends Component {
 								<Text style={{ color: 'red', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'notes-medical').percentage.toFixed(2)}%
 							</Text>
-							</View>
+							</TouchableOpacity>
 						</View>
 					</View>
-					: []}
+					: []
+				}
 
 				<CardSection>
 					<Icon
@@ -275,23 +338,29 @@ class Monefy extends Component {
 					/>
 				</CardSection>
 
-				{this.props.showState ?
-					<ScrollView
-						style={{ height: 383 }}
-					>
-						{
-							this.props.stateList.map(el => {
-								return (
-									<StateButton
-										onPress={() => this.changeItemStatus(el)}
-									>
-										{el}
-									</StateButton>
-								);
-							})
-						}
-					</ScrollView>
-					: []
+				{
+					this.props.showState ?
+						<ScrollView
+							style={{ height: 383 }}
+						>
+							{
+								this.props.stateList.map(el => {
+									return (
+										// <StateButton
+										// 	onPress={() => this.changeItemStatus(el)}
+										// >
+										// 	{el}
+										// </StateButton>
+										<StateButton
+											children={el}
+											onPress={() => this.changeItemStatus(el)}
+											updateItem={this.updateItem}
+										/>
+									);
+								})
+							}
+						</ScrollView>
+						: []
 				}
 
 				<View style={{
@@ -330,7 +399,7 @@ class Monefy extends Component {
 						+
 					</RoundButton>
 				</View>
-			</Card>
+			</Card >
 		);
 	}
 }
@@ -380,5 +449,7 @@ export default connect(mapStateToProps, {
 	incomeFetch,
 	changeShowState,
 	changeItemStatus,
-	changeDate
+	changeDate,
+	addExpenseForCategory,
+	updateItem
 })(Monefy);

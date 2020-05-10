@@ -1,11 +1,11 @@
 /* eslint-disable quotes */
 /* eslint-disable react-native/no-inline-styles */
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { changeShowExpanseKeyboard, deleteExpense, errorMsgChanged, expenseChanged, submitExpense } from '../actions';
+import { changeShowExpanseKeyboard, deleteExpense, errorMsgChanged, expenseChanged, submitExpense, updateExpense } from '../actions';
 import { Category } from '../util/Category';
 import { Button, Card, CardSection } from './common';
 import { Keyboard } from './common/Keyboard';
@@ -39,9 +39,16 @@ class NewExpense extends Component {
     }
 
     submit(category) {
-        const { expense, showExpanseKeyboard } = this.props;
-
-        this.props.submitExpense({ expense, category, showExpanseKeyboard });
+        const { expense, showExpanseKeyboard, itemForUpdate } = this.props;
+        if (!expense) {
+            this.props.errorMsgChanged('You must enter a value!');
+            return;
+        }
+        if (itemForUpdate !== {}) {
+            this.props.updateExpense({ ...itemForUpdate, expense: expense });
+        } else {
+            this.props.submitExpense({ expense, category, showExpanseKeyboard });
+        }
     }
 
     render() {
@@ -70,158 +77,174 @@ class NewExpense extends Component {
                             onPress={this.keyDown}
                         />
                         <CardSection>
-                            <Button
-                                style={{ marginBottom: 0 }}
-                                onPress={this.chooseCategory.bind(this)}
-                            >
-                                CHOOSE CATEGORY
-                        </Button>
+                            {this.props.category !== null ?
+                                (
+                                    <TouchableOpacity
+                                        style={styles.buttonCategory}
+                                        onPress={() => this.submit(this.props.category.name)}
+                                    >
+                                        <Icon
+                                            name={this.props.category.icon}
+                                            style={{ fontSize: 35, color: `${this.props.category.color}` }}
+                                        />
+                                        <Text style={{ marginLeft: 10 }}>ADD '{this.props.category.name.toUpperCase()}'</Text>
+                                    </TouchableOpacity>
+                                ) :
+                                <Button
+                                    style={{ marginBottom: 0 }}
+                                    onPress={this.chooseCategory.bind(this)}
+                                >
+                                    CHOOSE CATEGORY
+                                </Button>
+                            }
                         </CardSection>
                     </View>
                     : []
                 }
 
-                {this.props.showExpanseKeyboard !== true ?
-                    <View style={styles.viewContainer}>
-                        <View style={{
-                            flexDirection: 'row',
-                        }} >
-                            <View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="money-bill-alt"
-                                        style={{ fontSize: 45, color: "orange" }}
-                                        onPress={() => this.submit('bills')}
-                                    />
-                                    <Text style={{ color: 'orange', textAlign: 'center' }}>{Category.Bills}</Text>
-                                </View>
+                {
+                    this.props.showExpanseKeyboard !== true ?
+                        <View style={styles.viewContainer}>
+                            <View style={{
+                                flexDirection: 'row',
+                            }} >
+                                <View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="money-bill-alt"
+                                            style={{ fontSize: 45, color: "orange" }}
+                                            onPress={() => this.submit('bills')}
+                                        />
+                                        <Text style={{ color: 'orange', textAlign: 'center' }}>{Category.Bills}</Text>
+                                    </View>
 
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="car"
-                                        style={{ fontSize: 45, color: "gray" }}
-                                        onPress={() => this.submit('car')}
-                                    />
-                                    <Text style={{ color: 'gray', textAlign: 'center' }}>{Category.Car}</Text>
-                                </View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="car"
+                                            style={{ fontSize: 45, color: "gray" }}
+                                            onPress={() => this.submit('car')}
+                                        />
+                                        <Text style={{ color: 'gray', textAlign: 'center' }}>{Category.Car}</Text>
+                                    </View>
 
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="phone"
-                                        style={{ fontSize: 45, color: "#D2481D" }}
-                                        onPress={() => this.submit('phone')}
-                                    />
-                                    <Text style={{ color: '#D2481D', textAlign: 'center' }}>{Category.Communications}</Text>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="phone"
+                                            style={{ fontSize: 45, color: "#D2481D" }}
+                                            onPress={() => this.submit('phone')}
+                                        />
+                                        <Text style={{ color: '#D2481D', textAlign: 'center' }}>{Category.Communications}</Text>
+                                    </View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="gift"
+                                            style={{ fontSize: 45, color: "#FF69B4" }}
+                                            onPress={() => this.submit('gift')}
+                                        />
+                                        <Text style={{ color: '#FF69B4', textAlign: 'center' }}>{Category.Gifts}</Text>
+                                    </View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="glass-martini-alt"
+                                            style={{ fontSize: 45, color: "#DC143C" }}
+                                            onPress={() => this.submit('glass-martini-alt')}
+                                        />
+                                        <Text style={{ color: '#DC143C', textAlign: 'center' }}>{Category.Entertainment}</Text>
+                                    </View>
                                 </View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="gift"
-                                        style={{ fontSize: 45, color: "#FF69B4" }}
-                                        onPress={() => this.submit('gift')}
-                                    />
-                                    <Text style={{ color: '#FF69B4', textAlign: 'center' }}>{Category.Gifts}</Text>
-                                </View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="glass-martini-alt"
-                                        style={{ fontSize: 45, color: "#DC143C" }}
-                                        onPress={() => this.submit('glass-martini-alt')}
-                                    />
-                                    <Text style={{ color: '#DC143C', textAlign: 'center' }}>{Category.Entertainment}</Text>
-                                </View>
-                            </View>
-                            <View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="home"
-                                        style={{ fontSize: 45, color: "#6495ED" }}
-                                        onPress={() => this.submit('home')}
-                                    />
-                                    <Text style={{ color: '#6495ED', textAlign: 'center' }}>{Category.House}</Text>
-                                </View>
+                                <View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="home"
+                                            style={{ fontSize: 45, color: "#6495ED" }}
+                                            onPress={() => this.submit('home')}
+                                        />
+                                        <Text style={{ color: '#6495ED', textAlign: 'center' }}>{Category.House}</Text>
+                                    </View>
 
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="dog"
-                                        style={{ fontSize: 45, color: "#800000" }}
-                                        onPress={() => this.submit('dog')}
-                                    />
-                                    <Text style={{ color: '#800000', textAlign: 'center' }}>{Category.Pets}</Text>
-                                </View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="dog"
+                                            style={{ fontSize: 45, color: "#800000" }}
+                                            onPress={() => this.submit('dog')}
+                                        />
+                                        <Text style={{ color: '#800000', textAlign: 'center' }}>{Category.Pets}</Text>
+                                    </View>
 
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="taxi"
-                                        style={{ fontSize: 45, color: "#CCCC00" }}
-                                        onPress={() => this.submit('taxi')}
-                                    />
-                                    <Text style={{ color: '#CCCC00', textAlign: 'center' }}>{Category.Taxi}</Text>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="taxi"
+                                            style={{ fontSize: 45, color: "#CCCC00" }}
+                                            onPress={() => this.submit('taxi')}
+                                        />
+                                        <Text style={{ color: '#CCCC00', textAlign: 'center' }}>{Category.Taxi}</Text>
+                                    </View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="train"
+                                            style={{ fontSize: 45, color: "purple" }}
+                                            onPress={() => this.submit('train')}
+                                        />
+                                        <Text style={{ color: 'purple', textAlign: 'center' }}>{Category.Transport}</Text>
+                                    </View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="pizza-slice"
+                                            style={{ fontSize: 45, color: "#FF4500" }}
+                                            onPress={() => this.submit('pizza-slice')}
+                                        />
+                                        <Text style={{ color: '#FF4500', textAlign: 'center' }}>{Category.Food}</Text>
+                                    </View>
                                 </View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="train"
-                                        style={{ fontSize: 45, color: "purple" }}
-                                        onPress={() => this.submit('train')}
-                                    />
-                                    <Text style={{ color: 'purple', textAlign: 'center' }}>{Category.Transport}</Text>
-                                </View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="pizza-slice"
-                                        style={{ fontSize: 45, color: "#FF4500" }}
-                                        onPress={() => this.submit('pizza-slice')}
-                                    />
-                                    <Text style={{ color: '#FF4500', textAlign: 'center' }}>{Category.Food}</Text>
-                                </View>
-                            </View>
-                            <View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="notes-medical"
-                                        style={{ fontSize: 45, color: "red" }}
-                                        onPress={() => this.submit('notes-medical')}
-                                    />
-                                    <Text style={{ color: 'red', textAlign: 'center' }}>{Category.Health}</Text>
-                                </View>
+                                <View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="notes-medical"
+                                            style={{ fontSize: 45, color: "red" }}
+                                            onPress={() => this.submit('notes-medical')}
+                                        />
+                                        <Text style={{ color: 'red', textAlign: 'center' }}>{Category.Health}</Text>
+                                    </View>
 
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="running"
-                                        style={{ fontSize: 45, color: "#708090" }}
-                                        onPress={() => this.submit('running')}
-                                    />
-                                    <Text style={{ color: '#708090', textAlign: 'center' }}>{Category.Sports}</Text>
-                                </View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="running"
+                                            style={{ fontSize: 45, color: "#708090" }}
+                                            onPress={() => this.submit('running')}
+                                        />
+                                        <Text style={{ color: '#708090', textAlign: 'center' }}>{Category.Sports}</Text>
+                                    </View>
 
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="tshirt"
-                                        style={{ fontSize: 45, color: "#DB7093" }}
-                                        onPress={() => this.submit('tshirt')}
-                                    />
-                                    <Text style={{ color: '#DB7093', textAlign: 'center' }}>{Category.Clothes}</Text>
-                                </View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="utensils"
-                                        style={{ fontSize: 45, color: "#A52A2A" }}
-                                        onPress={() => this.submit('utensils')}
-                                    />
-                                    <Text style={{ color: '#A52A2A', textAlign: 'center' }}>{Category.EatingOut}</Text>
-                                </View>
-                                <View style={styles.iconContainer}>
-                                    <Icon
-                                        name="taxi"
-                                        style={{ fontSize: 45, color: "#483D8B" }}
-                                        onPress={() => this.submit('taxi')}
-                                    />
-                                    <Text style={{ color: '#483D8B', textAlign: 'center' }}>{Category.Taxi}</Text>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="tshirt"
+                                            style={{ fontSize: 45, color: "#DB7093" }}
+                                            onPress={() => this.submit('tshirt')}
+                                        />
+                                        <Text style={{ color: '#DB7093', textAlign: 'center' }}>{Category.Clothes}</Text>
+                                    </View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="utensils"
+                                            style={{ fontSize: 45, color: "#A52A2A" }}
+                                            onPress={() => this.submit('utensils')}
+                                        />
+                                        <Text style={{ color: '#A52A2A', textAlign: 'center' }}>{Category.EatingOut}</Text>
+                                    </View>
+                                    <View style={styles.iconContainer}>
+                                        <Icon
+                                            name="taxi"
+                                            style={{ fontSize: 45, color: "#483D8B" }}
+                                            onPress={() => this.submit('taxi')}
+                                        />
+                                        <Text style={{ color: '#483D8B', textAlign: 'center' }}>{Category.Taxi}</Text>
+                                    </View>
                                 </View>
                             </View>
                         </View>
-                    </View>
-                    : []}
-            </Card>
+                        : []
+                }
+            </Card >
         );
     }
 }
@@ -266,13 +289,27 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textAlign: 'center',
         justifyContent: 'center'
+    },
+    buttonCategory: {
+        flex: 1,
+        flexDirection: 'row',
+        height: 50,
+        alignSelf: 'stretch',
+        backgroundColor: 'white',
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#3CB371',
+        marginLeft: 5,
+        marginRight: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
 const mapStateToProps = ({ monefy }) => {
-    const { expense, errorMsg, showExpanseKeyboard } = monefy;
+    const { expense, errorMsg, showExpanseKeyboard, category, itemForUpdate } = monefy;
 
-    return { expense, errorMsg, showExpanseKeyboard };
+    return { expense, errorMsg, showExpanseKeyboard, category, itemForUpdate };
 }
 
 export default connect(mapStateToProps, {
@@ -280,5 +317,6 @@ export default connect(mapStateToProps, {
     errorMsgChanged,
     changeShowExpanseKeyboard,
     submitExpense,
-    deleteExpense
+    deleteExpense,
+    updateExpense
 })(NewExpense);

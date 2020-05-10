@@ -1,62 +1,70 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { CategoryIcon } from '../../util/CategoryIcon';
 
-const StateButton = ({ onPress, children }) => {
-    let icon = CategoryIcon.find(ci => ci.name === children.category);
-    return (
-        <View>
-            <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={onPress}
-            >
-                <View
-                    style={{ flexDirection: 'row', margin: 5 }}
+class StateButton extends Component {
+    // let icon = CategoryIcon.find(ci => ci.name === children.category);
+
+    render() {
+        let icon = CategoryIcon.find(ci => ci.name === this.props.children.category);
+
+        return (
+            <View>
+                <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={this.props.onPress}
                 >
-                    <Icon
-                        name={children.collapse === false ? 'chevron-down' : 'chevron-up'}
-                        style={{ fontSize: 15, color: 'gray', textAlignVertical: 'center' }}
-                    />
-                    <Icon
-                        name={icon.icon}
-                        style={{ fontSize: 30, color: `${icon.color}`, marginLeft: 10 }}
-                    />
-                    <Text style={styles.textsStyle}>
-                        <Text style={{ fontSize: 18, color: `${icon.color}` }}>
-                            {children.category.charAt(0).toUpperCase() + children.category.slice(1)}
+                    <View
+                        style={{ flexDirection: 'row', margin: 5 }}
+                    >
+                        <Icon
+                            name={this.props.children.collapse === false ? 'chevron-down' : 'chevron-up'}
+                            style={{ fontSize: 15, color: 'gray', textAlignVertical: 'center' }}
+                        />
+                        <Icon
+                            name={icon.icon}
+                            style={{ fontSize: 30, color: `${icon.color}`, marginLeft: 10 }}
+                        />
+                        <Text style={styles.textsStyle}>
+                            <Text style={{ fontSize: 18, color: `${icon.color}` }}>
+                                {this.props.children.category.charAt(0).toUpperCase() + this.props.children.category.slice(1)}
+                            </Text>
                         </Text>
-                    </Text>
-                    <Text style={children.type === 'income' ? styles.textsStyleIncome : styles.textsStyleExpense}>
-                        <Text style={{ fontSize: 10 }}>BAM</Text>
-                        <Text style={{ fontSize: 18 }}>{children.total.toFixed(2)}</Text>
-                    </Text>
-                </View>
-            </TouchableOpacity>
-            {children.collapse === true ?
-                <View style={{ flexDirection: 'column' }}>
-                    {children.items.map(i => {
-                        let value = i.expense ? i.expense : i.income;
-                        return (
-                            <View style={{ flexDirection: 'row' }}>
-                                <View style={i.expense ? styles.circleExpense : styles.circleIncome} />
-                                <Text style={styles.textsStyle}>
-                                    <Text style={{ fontSize: 10 }}>BAM</Text>
-                                    <Text>{Number(value).toFixed(2)}</Text>
-                                </Text>
-                                <Text style={{ fontSize: 14, textAlign: 'center', paddingTop: 10, paddingBottom: 10, color: 'gray' }}>
-                                    {i.date}
-                                </Text>
-                            </View>
-                        );
-                    })}
-                </View>
-                : null
-            }
-        </View>
-    );
-};
+                        <Text style={this.props.children.type === 'income' ? styles.textsStyleIncome : styles.textsStyleExpense}>
+                            <Text style={{ fontSize: 10 }}>BAM</Text>
+                            <Text style={{ fontSize: 18 }}>{this.props.children.total.toFixed(2)}</Text>
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                {this.props.children.collapse === true ?
+                    <View style={{ flexDirection: 'column' }}>
+                        {this.props.children.items.map(i => {
+                            let value = i.expense ? i.expense : i.income;
+                            return (
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row' }}
+                                    onPress={() => this.props.updateItem(i)}
+                                >
+                                    <View style={i.expense ? styles.circleExpense : styles.circleIncome} />
+                                    <Text style={styles.textsStyle}>
+                                        <Text style={{ fontSize: 10 }}>BAM</Text>
+                                        <Text>{Number(value).toFixed(2)}</Text>
+                                    </Text>
+                                    <Text style={{ fontSize: 14, textAlign: 'center', paddingTop: 10, paddingBottom: 10, color: 'gray' }}>
+                                        {i.date}
+                                    </Text>
+                                </TouchableOpacity>
+                            );
+                        })}
+                    </View>
+                    : null
+                }
+            </View>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     textsStyle: {
@@ -137,5 +145,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export { StateButton };
+export default StateButton;
 
