@@ -39,7 +39,7 @@ class NewExpense extends Component {
     }
 
     submit(category) {
-        const { expense, showExpanseKeyboard, itemForUpdate } = this.props;
+        const { expense, showExpanseKeyboard, itemForUpdate, date } = this.props;
         if (!expense) {
             this.props.errorMsgChanged('You must enter a value!');
             return;
@@ -48,7 +48,7 @@ class NewExpense extends Component {
             this.props.updateExpense({ ...itemForUpdate, expense: expense });
         } else {
             console.log('submit');
-            this.props.submitExpense({ expense, category, showExpanseKeyboard });
+            this.props.submitExpense({ expense, category, showExpanseKeyboard, date });
         }
     }
 
@@ -131,18 +131,18 @@ class NewExpense extends Component {
                                     <View style={styles.iconContainer}>
                                         <Icon
                                             name="phone"
-                                            style={{ fontSize: 45, color: "#D2481D" }}
+                                            style={{ fontSize: 45, color: "#9370DB" }}
                                             onPress={() => this.submit('phone')}
                                         />
-                                        <Text style={{ color: '#D2481D', textAlign: 'center' }}>{Category.Communications}</Text>
+                                        <Text style={{ color: '#9370DB', textAlign: 'center' }}>{Category.Communications}</Text>
                                     </View>
                                     <View style={styles.iconContainer}>
                                         <Icon
                                             name="gift"
-                                            style={{ fontSize: 45, color: "#FF69B4" }}
+                                            style={{ fontSize: 45, color: "#FF00FF" }}
                                             onPress={() => this.submit('gift')}
                                         />
-                                        <Text style={{ color: '#FF69B4', textAlign: 'center' }}>{Category.Gifts}</Text>
+                                        <Text style={{ color: '#FF00FF', textAlign: 'center' }}>{Category.Gifts}</Text>
                                     </View>
                                     <View style={styles.iconContainer}>
                                         <Icon
@@ -166,10 +166,10 @@ class NewExpense extends Component {
                                     <View style={styles.iconContainer}>
                                         <Icon
                                             name="dog"
-                                            style={{ fontSize: 45, color: "#800000" }}
+                                            style={{ fontSize: 45, color: "#8B4513" }}
                                             onPress={() => this.submit('dog')}
                                         />
-                                        <Text style={{ color: '#800000', textAlign: 'center' }}>{Category.Pets}</Text>
+                                        <Text style={{ color: '#8B4513', textAlign: 'center' }}>{Category.Pets}</Text>
                                     </View>
 
                                     <View style={styles.iconContainer}>
@@ -191,10 +191,10 @@ class NewExpense extends Component {
                                     <View style={styles.iconContainer}>
                                         <Icon
                                             name="pizza-slice"
-                                            style={{ fontSize: 45, color: "#FF4500" }}
+                                            style={{ fontSize: 45, color: "#FFD700" }}
                                             onPress={() => this.submit('pizza-slice')}
                                         />
-                                        <Text style={{ color: '#FF4500', textAlign: 'center' }}>{Category.Food}</Text>
+                                        <Text style={{ color: '#FFD700', textAlign: 'center' }}>{Category.Food}</Text>
                                     </View>
                                 </View>
                                 <View>
@@ -308,9 +308,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ monefy }) => {
-    const { expense, errorMsg, showExpanseKeyboard, category, itemForUpdate } = monefy;
+    const { expense, errorMsg, showExpanseKeyboard, category, itemForUpdate, date } = monefy;
 
-    return { expense, errorMsg, showExpanseKeyboard, category, itemForUpdate };
+    return { expense, errorMsg, showExpanseKeyboard, category, itemForUpdate, date };
 }
 
 export default connect(mapStateToProps, {

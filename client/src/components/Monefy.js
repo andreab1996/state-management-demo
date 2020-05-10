@@ -132,9 +132,9 @@ class Monefy extends Component {
 							>
 								<Icon
 									name="phone"
-									style={{ fontSize: 40, color: "#D2481D" }}
+									style={{ fontSize: 40, color: "#9370DB" }}
 								/>
-								<Text style={{ color: 'gray', textAlign: 'center' }}>
+								<Text style={{ color: '#9370DB', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'phone').percentage.toFixed(2)}%
 								</Text>
 							</TouchableOpacity>
@@ -144,9 +144,9 @@ class Monefy extends Component {
 							>
 								<Icon
 									name="gift"
-									style={{ fontSize: 40, color: "#FF69B4" }}
+									style={{ fontSize: 40, color: "#FF00FF" }}
 								/>
-								<Text style={{ color: '#FF69B4', textAlign: 'center' }}>
+								<Text style={{ color: '#FF00FF', textAlign: 'center' }}>
 									{this.props.sections.find(s => s.name === 'gift').percentage.toFixed(2)}%
 							</Text>
 							</TouchableOpacity>
@@ -189,9 +189,9 @@ class Monefy extends Component {
 								>
 									<Icon
 										name="dog"
-										style={{ fontSize: 40, color: "#800000" }}
+										style={{ fontSize: 40, color: "#8B4513" }}
 									/>
-									<Text style={{ color: '#800000', textAlign: 'center' }}>
+									<Text style={{ color: '#8B4513', textAlign: 'center' }}>
 										{this.props.sections.find(s => s.name === 'dog').percentage.toFixed(2)}%
 								</Text>
 								</TouchableOpacity>
@@ -241,9 +241,9 @@ class Monefy extends Component {
 								>
 									<Icon
 										name="pizza-slice"
-										style={{ fontSize: 40, color: "#FF4500" }}
+										style={{ fontSize: 40, color: "#FFD700" }}
 									/>
-									<Text style={{ color: '#FF4500', textAlign: 'center' }}>
+									<Text style={{ color: '#FFD700', textAlign: 'center' }}>
 										{this.props.sections.find(s => s.name === 'pizza-slice').percentage.toFixed(2)}%
 								</Text>
 								</TouchableOpacity>

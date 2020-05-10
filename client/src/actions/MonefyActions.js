@@ -105,8 +105,7 @@ export const updateItem = (item) => {
 };
 
 export const submitExpense = (text) => {
-    const { expense, category } = text;
-    let date = firebase.database.ServerValue.TIMESTAMP;
+    const { expense, category, date } = text;
 
     return (dispatch) => {
         firebase.database().ref('/expense')
@@ -135,8 +134,7 @@ export const updateExpense = (item) => {
 };
 
 export const submitIncome = (text) => {
-    const { income, category } = text;
-    let date = firebase.database.ServerValue.TIMESTAMP;
+    const { income, category, date } = text;
 
     return (dispatch) => {
         firebase.database().ref('/income')

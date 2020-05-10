@@ -11,12 +11,12 @@ export const CategoryIcon = [
     },
     {
         name: 'phone',
-        color: '#D2481D',
+        color: '#9370DB',
         icon: 'phone',
     },
     {
         name: 'gift',
-        color: '#FF69B4',
+        color: '#FF00FF',
         icon: 'gift',
     },
     {
@@ -31,7 +31,7 @@ export const CategoryIcon = [
     },
     {
         name: 'dog',
-        color: '#800000',
+        color: '#8B4513',
         icon: 'dog'
     },
     {
@@ -46,7 +46,7 @@ export const CategoryIcon = [
     },
     {
         name: 'pizza-slice',
-        color: '#FF4500',
+        color: '#FFD700',
         icon: 'pizza-slice'
     },
     {
@@ -76,17 +76,17 @@ export const CategoryIcon = [
     },
     {
         name: 'deposits',
-        color: '#fe5a1d',
+        color: '#FF6347',
         icon: 'dollar-sign'
     },
     {
         name: 'salary',
-        color: '#483D8B',
+        color: '#4169E1',
         icon: 'coins'
     },
     {
         name: 'savings',
-        color: '#DB7093',
+        color: '#C71585',
         icon: 'piggy-bank'
     }
 ];

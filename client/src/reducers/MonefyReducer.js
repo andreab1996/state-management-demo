@@ -30,10 +30,10 @@ const INITIAL_STATE = {
             percentage: 0, color: 'gray', name: 'car'
         },
         {
-            percentage: 0, color: '#D2481D', name: 'phone'
+            percentage: 0, color: '#9370DB', name: 'phone'
         },
         {
-            percentage: 0, color: '#FF69B4', name: 'gift'
+            percentage: 0, color: '#FF00FF', name: 'gift'
         },
         {
             percentage: 0, color: '#DC143C', name: 'glass-martini-alt'
@@ -42,7 +42,7 @@ const INITIAL_STATE = {
             percentage: 0, color: '#6495ED', name: 'home'
         },
         {
-            percentage: 0, color: '#800000', name: 'dog'
+            percentage: 0, color: '#8B4513', name: 'dog'
         },
         {
             percentage: 0, color: '#CCCC00', name: 'taxi'
@@ -51,7 +51,7 @@ const INITIAL_STATE = {
             percentage: 0, color: 'purple', name: 'train'
         },
         {
-            percentage: 0, color: '#FF4500', name: 'pizza-slice'
+            percentage: 0, color: '#FFD700', name: 'pizza-slice'
         },
         {
             percentage: 0, color: 'red', name: 'notes-medical'
@@ -83,12 +83,12 @@ const INITIAL_STATE = {
         },
         {
             name: 'phone',
-            color: '#D2481D',
+            color: '#9370DB',
             quantity: 0,
         },
         {
             name: 'gift',
-            color: '#FF69B4',
+            color: '#FF00FF',
             quantity: 0,
         },
         {
@@ -103,7 +103,7 @@ const INITIAL_STATE = {
         },
         {
             name: 'dog',
-            color: '#800000',
+            color: '#8B4513',
             quantity: 0
         },
         {
@@ -118,7 +118,7 @@ const INITIAL_STATE = {
         },
         {
             name: 'pizza-slice',
-            color: '#FF4500',
+            color: '#FFD700',
             quantity: 0
         },
         {
@@ -193,7 +193,6 @@ export default (state = INITIAL_STATE, action) => {
             } else {
                 newValue = i.income;
             }
-            console.log('==========================+++++++++++++', i, cat, newValue);
             return { ...state, category: cat, income: newValue, expense: newValue, itemForUpdate: i };
         case EXPENSE_CHANGED:
             let key = action.payload;

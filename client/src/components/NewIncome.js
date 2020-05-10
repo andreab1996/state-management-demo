@@ -40,12 +40,12 @@ class NewIncome extends Component {
     }
 
     submit(category) {
-        const { income, showIncomeKeyboard, itemForUpdate } = this.props;
+        const { income, showIncomeKeyboard, itemForUpdate, date } = this.props;
 
         if (Object.keys(itemForUpdate).length !== 0) {
             this.props.updateIncome({ ...itemForUpdate, income: income });
         } else {
-            this.props.submitIncome({ income, category, showIncomeKeyboard });
+            this.props.submitIncome({ income, category, showIncomeKeyboard, date });
         }
     }
 
@@ -109,10 +109,10 @@ class NewIncome extends Component {
                                 <View style={styles.iconContainer}>
                                     <Icon
                                         name="dollar-sign"
-                                        style={{ fontSize: 45, color: "orange" }}
+                                        style={{ fontSize: 45, color: "#FF6347" }}
                                         onPress={() => this.submit('deposits')}
                                     />
-                                    <Text style={{ color: 'orange', textAlign: 'center' }}>{Category.Deposits}</Text>
+                                    <Text style={{ color: '#FF6347', textAlign: 'center' }}>{Category.Deposits}</Text>
                                 </View>
                             </View>
 
@@ -120,10 +120,10 @@ class NewIncome extends Component {
                                 <View style={styles.iconContainer}>
                                     <Icon
                                         name="coins"
-                                        style={{ fontSize: 45, color: "#6495ED" }}
+                                        style={{ fontSize: 45, color: "#4169E1" }}
                                         onPress={() => this.submit('salary')}
                                     />
-                                    <Text style={{ color: '#6495ED', textAlign: 'center' }}>{Category.Salary}</Text>
+                                    <Text style={{ color: '#4169E1', textAlign: 'center' }}>{Category.Salary}</Text>
                                 </View>
                             </View>
 
@@ -131,10 +131,10 @@ class NewIncome extends Component {
                                 <View style={styles.iconContainer}>
                                     <Icon
                                         name="piggy-bank"
-                                        style={{ fontSize: 45, color: "#DB7093" }}
+                                        style={{ fontSize: 45, color: "#C71585" }}
                                         onPress={() => this.submit('savings')}
                                     />
-                                    <Text style={{ color: '#DB7093', textAlign: 'center' }}>{Category.Savings}</Text>
+                                    <Text style={{ color: '#C71585', textAlign: 'center' }}>{Category.Savings}</Text>
                                 </View>
                             </View>
                         </View>
@@ -208,9 +208,9 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = ({ monefy }) => {
-    const { income, errorMsg, showIncomeKeyboard, category, itemForUpdate } = monefy;
+    const { income, errorMsg, showIncomeKeyboard, category, itemForUpdate, date } = monefy;
 
-    return { income, errorMsg, showIncomeKeyboard, category, itemForUpdate };
+    return { income, errorMsg, showIncomeKeyboard, category, itemForUpdate, date };
 }
 
 export default connect(mapStateToProps, {
