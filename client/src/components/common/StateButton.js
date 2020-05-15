@@ -52,9 +52,11 @@ class StateButton extends Component {
                                         <Text style={{ fontSize: 10 }}>BAM</Text>
                                         <Text>{Number(value).toFixed(2)}</Text>
                                     </Text>
-                                    <Text style={{ fontSize: 14, textAlign: 'center', paddingTop: 10, paddingBottom: 10, color: 'gray' }}>
-                                        {i.date}
-                                    </Text>
+                                    <Icon
+                                        name="trash"
+                                        style={{ fontSize: 20, color: 'gray', marginRight: 10, textAlignVertical: 'center' }}
+                                        onPress={() => this.props.deleteItem(i)}
+                                    />
                                 </TouchableOpacity>
                             );
                         })}

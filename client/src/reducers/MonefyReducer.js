@@ -68,7 +68,6 @@ const INITIAL_STATE = {
         {
             percentage: 0, color: '#483D8B', name: 'taxi'
         }
-
     ],
     categories: [
         {
@@ -152,7 +151,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     let sections = state.sections;
     let now = encodeDateWithoutTime(new Date());
-    let date = state.date;
+    let date = state.date ? state.date : now;
     switch (action.type) {
         case RESET_STATE:
             let choosenDate = state.date;
@@ -302,10 +301,22 @@ export default (state = INITIAL_STATE, action) => {
                 let currentDate = new Date(val.date);
                 return { uid, ...val, date: encodeDateWithoutTime(currentDate) };
             });
+            console.log("date = ", date);
             if (date === '') { expenses = expenses.filter(e => e.date === now); }
             if (date !== '') { expenses = expenses.filter(e => e.date === date); }
             if (expenses.length === 0) {
-                return { ...state, sections, totalExpense: totalEx, stateDictionary: mapExpense };
+                sections = sections.map(i => {
+                    if (i.name === 'empty')
+                        return {
+                            ...i,
+                            percentage: 100
+                        };
+                    return {
+                        ...i,
+                        percentage: 0
+                    }
+                });
+                return { ...state, sections, totalExpense: totalEx, stateDictionary: mapExpense, date };
             }
 
             if (expenses.length > 0) {
@@ -377,6 +388,7 @@ export default (state = INITIAL_STATE, action) => {
             if (date !== '') { incomes = incomes.filter(e => e.date === date); }
 
             if (incomes.length === 0) {
+                console.log('andrea', sections);
                 return { ...state, totalIncome: totalIn, stateDictionary: mapIncome };
             }
             // calculate total income

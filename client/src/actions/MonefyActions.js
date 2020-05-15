@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 import {
@@ -17,6 +18,7 @@ import {
     CHANGE_DATE,
     ADD_FOR_CATEGORY,
     UPDATE_ITEM,
+    DELETE_ITEM,
     RESET_STATE
 } from './types';
 
@@ -103,6 +105,24 @@ export const updateItem = (item) => {
         payload: item
     };
 };
+
+export const deleteItem = (item) => {
+    const { uid } = item;
+    let type = '';
+    if (item.category !== 'deposits' && item.category !== 'salary' && item.category !== 'savings')
+        type = 'expense';
+    else
+        type = 'income';
+
+    return (dispatch) => {
+        firebase.database().ref(`/${type}/${uid}`)
+            .remove()
+            .then(() => {
+                dispatch({ type: RESET_STATE });
+                Actions.monefy({ type: 'reset' });
+            });
+    };
+}
 
 export const submitExpense = (text) => {
     const { expense, category, date } = text;

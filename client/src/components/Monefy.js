@@ -11,7 +11,7 @@ import Pie from 'react-native-pie';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { addExpenseForCategory, changeDate, changeItemStatus, changeShowState, expensesFetch, incomeFetch, updateItem } from '../actions';
+import { addExpenseForCategory, changeDate, changeItemStatus, changeShowState, expensesFetch, incomeFetch, updateItem, deleteItem } from '../actions';
 import { Card, CardSection, RoundButton } from './common';
 import { BalanceButton } from './common/BalanceButton';
 import StateButton from './common/StateButton';
@@ -21,6 +21,7 @@ class Monefy extends Component {
 	constructor(props) {
 		super(props);
 		this.updateItem = this.updateItem.bind(this);
+		this.deleteItem = this.deleteItem.bind(this);
 	}
 
 	componentWillMount() {
@@ -63,11 +64,14 @@ class Monefy extends Component {
 		}
 	}
 
+	deleteItem(item) {
+		this.props.deleteItem(item);
+	}
+
 	render() {
 
 		return (
 			<Card>
-				{/* <Text style={styles.currentDate}>{this.props.currentDate}</Text> */}
 				<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 					<DatePicker
 						style={{ width: 200 }}
@@ -345,15 +349,11 @@ class Monefy extends Component {
 							{
 								this.props.stateList.map(el => {
 									return (
-										// <StateButton
-										// 	onPress={() => this.changeItemStatus(el)}
-										// >
-										// 	{el}
-										// </StateButton>
 										<StateButton
 											children={el}
 											onPress={() => this.changeItemStatus(el)}
 											updateItem={this.updateItem}
+											deleteItem={this.deleteItem}
 										/>
 									);
 								})
@@ -450,5 +450,6 @@ export default connect(mapStateToProps, {
 	changeItemStatus,
 	changeDate,
 	addExpenseForCategory,
-	updateItem
+	updateItem,
+	deleteItem
 })(Monefy);
