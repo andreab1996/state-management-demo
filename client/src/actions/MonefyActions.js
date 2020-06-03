@@ -19,7 +19,8 @@ import {
     ADD_FOR_CATEGORY,
     UPDATE_ITEM,
     DELETE_ITEM,
-    RESET_STATE
+    RESET_STATE,
+    RESET
 } from './types';
 
 export const incomeChanged = (text) => {
@@ -122,7 +123,20 @@ export const deleteItem = (item) => {
                 Actions.monefy({ type: 'reset' });
             });
     };
-}
+};
+
+export const addNewItem = (text) => {
+    return (dispatch) => {
+        dispatch({
+            type: RESET,
+            payload: {}
+        });
+        if (text === 'expense')
+            Actions.newExpense();
+        else
+            Actions.newIncome();
+    };
+};
 
 export const submitExpense = (text) => {
     const { expense, category, date } = text;

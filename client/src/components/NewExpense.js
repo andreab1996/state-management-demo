@@ -88,7 +88,7 @@ class NewExpense extends Component {
                                             name={this.props.category.icon}
                                             style={{ fontSize: 35, color: `${this.props.category.color}` }}
                                         />
-                                        <Text style={{ marginLeft: 10 }}>ADD '{this.props.category.name.toUpperCase()}'</Text>
+                                        <Text style={{ marginLeft: 10 }}>{JSON.stringify(this.props.itemForUpdate) === '{}' ? 'ADD' : 'UPDATE'} '{this.props.category.name.toUpperCase()}'</Text>
                                     </TouchableOpacity>
                                 ) :
                                 <Button

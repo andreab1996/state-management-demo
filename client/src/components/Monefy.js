@@ -11,7 +11,7 @@ import Pie from 'react-native-pie';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { addExpenseForCategory, changeDate, changeItemStatus, changeShowState, expensesFetch, incomeFetch, updateItem, deleteItem } from '../actions';
+import { addExpenseForCategory, changeDate, changeItemStatus, changeShowState, expensesFetch, incomeFetch, updateItem, deleteItem, addNewItem } from '../actions';
 import { Card, CardSection, RoundButton } from './common';
 import { BalanceButton } from './common/BalanceButton';
 import StateButton from './common/StateButton';
@@ -52,6 +52,10 @@ class Monefy extends Component {
 	addExpenseForCategory(category) {
 		this.props.addExpenseForCategory(category);
 		Actions.newExpense();
+	}
+
+	addNewItem(text) {
+		this.props.addNewItem(text);
 	}
 
 	updateItem(item) {
@@ -367,7 +371,7 @@ class Monefy extends Component {
 					marginTop: 10,
 				}}>
 					<RoundButton
-						onPress={() => Actions.newExpense()}
+						onPress={() => this.addNewItem("expense")}
 					>
 						-
             		</RoundButton>
@@ -393,7 +397,7 @@ class Monefy extends Component {
 						</Text>
 					</View>
 					<RoundButton
-						onPress={() => Actions.newIncome()}
+						onPress={() => this.addNewItem("income")}
 					>
 						+
 					</RoundButton>
@@ -451,5 +455,6 @@ export default connect(mapStateToProps, {
 	changeDate,
 	addExpenseForCategory,
 	updateItem,
-	deleteItem
+	deleteItem,
+	addNewItem
 })(Monefy);

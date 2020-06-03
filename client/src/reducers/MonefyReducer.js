@@ -1,5 +1,5 @@
 import _ from 'loadsh';
-import { ADD_FOR_CATEGORY, CHANGE_DATE, CHANGE_ITEM_STATUS, DELETE_EXPENSE, DELETE_INCOME, ERROR_MSG_CHANGED, EXPENSES_FETCH, EXPENSE_CHANGED, INCOME_CHANGED, INCOME_FETCH, SHOW_EXPENSE_KEYBOARD, SHOW_INCOME_KEYBOARD, SHOW_STATE, SUBMIT_EXPENSE, SUBMIT_INCOME, UPDATE_ITEM, IS_EXISTS, RESET_STATE } from '../actions/types';
+import { ADD_FOR_CATEGORY, CHANGE_DATE, CHANGE_ITEM_STATUS, DELETE_EXPENSE, DELETE_INCOME, ERROR_MSG_CHANGED, EXPENSES_FETCH, EXPENSE_CHANGED, INCOME_CHANGED, INCOME_FETCH, SHOW_EXPENSE_KEYBOARD, SHOW_INCOME_KEYBOARD, SHOW_STATE, SUBMIT_EXPENSE, SUBMIT_INCOME, UPDATE_ITEM, IS_EXISTS, RESET_STATE, RESET } from '../actions/types';
 import { CategoryIcon } from '../util/CategoryIcon';
 import { encodeDateWithoutTime } from '../util/encodingDateWithoutTime';
 
@@ -153,6 +153,8 @@ export default (state = INITIAL_STATE, action) => {
     let now = encodeDateWithoutTime(new Date());
     let date = state.date ? state.date : now;
     switch (action.type) {
+        case RESET:
+            return { ...state, category: null, itemForUpdate: {}, income: '', expense: '' };
         case RESET_STATE:
             let choosenDate = state.date;
             return { ...INITIAL_STATE, date: choosenDate };
@@ -316,7 +318,7 @@ export default (state = INITIAL_STATE, action) => {
                         percentage: 0
                     }
                 });
-                return { ...state, sections, totalExpense: totalEx, stateDictionary: mapExpense, date };
+                return { ...state, sections, totalExpense: totalEx, stateDictionary: mapExpense, date, itemForUpdate: {}, category: null };
             }
 
             if (expenses.length > 0) {
@@ -365,7 +367,9 @@ export default (state = INITIAL_STATE, action) => {
                 totalExpense: totalEx,
                 stateDictionary: mapExpense,
                 stateList: list,
-                date: date !== '' ? date : now
+                date: date !== '' ? date : now,
+                itemForUpdate: {},
+                category: null
             };
         case SUBMIT_INCOME:
             let submitedIncome = state.totalIncome + Number(action.payload.income);
