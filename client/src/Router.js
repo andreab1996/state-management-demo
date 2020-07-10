@@ -1,11 +1,12 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Actions, Router, Scene } from 'react-native-router-flux';
+import { Router, Scene } from 'react-native-router-flux';
 import ChooseCategory from './components/ChooseCategory';
 import Monefy from './components/Monefy';
 import NewExpense from './components/NewExpense';
 import NewIncome from './components/NewIncome';
-import ReduxExample from './ReduxExample';
+import Login from './components/Login';
 
 const RouterComponent = () => {
     return (
@@ -17,18 +18,16 @@ const RouterComponent = () => {
             <Scene key="root" hideNavBar>
                 <Scene key="main">
                     <Scene
-                        rightTitle="Second page"
-                        onRight={() => { Actions.secondPage(); }}
-                        key="reduxExample"
-                        component={ReduxExample}
-                        title="Redux Example"
+                        key="login"
+                        component={Login}
+                        title="Login"
                         initial
                     />
                     <Scene
                         key="monefy"
                         component={Monefy}
                         title="Monefy"
-                        initial
+                    // initial
                     />
                     <Scene
                         key="newIncome"
