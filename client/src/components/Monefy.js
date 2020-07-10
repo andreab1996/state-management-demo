@@ -24,7 +24,7 @@ class Monefy extends Component {
 		this.deleteItem = this.deleteItem.bind(this);
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.props.expensesFetch();
 		this.props.incomeFetch();
 	}
