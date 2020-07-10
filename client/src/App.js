@@ -9,7 +9,7 @@ import Router from './Router';
 console.disableYellowBox = true;
 
 class App extends Component {
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         if (firebase.apps.length === 0) {
             firebase.initializeApp({
                 apiKey: 'AIzaSyBUycNfPX7_J5vIgNKC0TE8cEqgj8QmQVU',
