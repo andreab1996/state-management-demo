@@ -8,9 +8,8 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-import { passwordChanged, usernameChanged, loginUser } from '../actions';
-import { CardSection } from './common';
-import { LoginButton } from './common/LoginButton';
+import { createAccount, loginUser, passwordChanged, usernameChanged } from '../actions';
+import { CardSection, Spinner } from './common';
 import { SignUpButton } from './common/SignUpButton';
 
 class Login extends Component {
@@ -28,7 +27,7 @@ class Login extends Component {
 
 	onButtonPress() {
 		const { username, password } = this.props;
-		this.props.loginUser({ username, password });
+		this.props.createAccount({ username, password });
 	}
 
 	registration() {
@@ -37,10 +36,14 @@ class Login extends Component {
 	}
 
 	renderButton() {
+		if (this.props.loading) {
+			return <Spinner size="large" />;
+		}
+
 		return (
-			<LoginButton onPress={this.onButtonPress.bind(this)}>
+			<SignUpButton onPress={this.onButtonPress.bind(this)}>
 				Login
-			</LoginButton>
+			</SignUpButton>
 		);
 	}
 
@@ -84,7 +87,7 @@ class Login extends Component {
 										onChangeText={this.onUsernameChanged.bind(this)}
 										autoCorrect={false}
 										autoCapitalize="none"
-										placeholder="Username"
+										placeholder="Email"
 									/>
 								</View>
 							</View>
@@ -115,18 +118,11 @@ class Login extends Component {
 								</View>
 							</View>
 						</CardSection>
-
+						<Text style={{ color: 'red', fontSize: 16, textAlign: 'center', margin: 10 }}>{this.props.loginError}</Text>
 						<CardSection>
 							{this.renderButton()}
 						</CardSection>
 					</View>
-					<CardSection>
-						<SignUpButton
-							onPress={() => this.registration()}
-						>
-							Don't have an account? Sign up
-						</SignUpButton>
-					</CardSection>
 				</View>
 			</View>
 		);
@@ -156,13 +152,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ login }) => {
-	const { username, password, registration } = login;
+	const { username, password, registration, loginError } = login;
 
-	return { username, password, registration };
+	return { username, password, registration, loginError };
 };
 
 export default connect(mapStateToProps, {
 	usernameChanged,
 	passwordChanged,
-	loginUser
+	loginUser,
+	createAccount
 })(Login);
