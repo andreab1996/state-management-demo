@@ -108,6 +108,7 @@ export const updateItem = (item) => {
 };
 
 export const deleteItem = (item) => {
+    const { currentUser } = firebase.auth();
     const { uid } = item;
     let type = '';
     if (item.category !== 'deposits' && item.category !== 'salary' && item.category !== 'savings')
@@ -116,7 +117,8 @@ export const deleteItem = (item) => {
         type = 'income';
 
     return (dispatch) => {
-        firebase.database().ref(`/${type}/${uid}`)
+        firebase.database().ref(`/users/${currentUser.uid}/${type}/${uid}`)
+        // firebase.database().ref(`/${type}/${uid}`)
             .remove()
             .then(() => {
                 dispatch({ type: RESET_STATE });
@@ -140,9 +142,12 @@ export const addNewItem = (text) => {
 
 export const submitExpense = (text) => {
     const { expense, category, date } = text;
+    const { currentUser } = firebase.auth();
 
     return (dispatch) => {
-        firebase.database().ref('/expense')
+        firebase.database().ref(`/users/${currentUser.uid}/expense`)
+    // return (dispatch) => {
+    //     firebase.database().ref('/expense')
             .push({ expense, category, date })
             .then(() => {
                 dispatch({
@@ -156,9 +161,11 @@ export const submitExpense = (text) => {
 
 export const updateExpense = (item) => {
     const { category, date, expense, uid } = item;
+    const { currentUser } = firebase.auth();
 
     return (dispatch) => {
-        firebase.database().ref(`/expense/${uid}`)
+        firebase.database().ref(`/users/${currentUser.uid}/expense/${uid}`)
+        // firebase.database().ref(`/expense/${uid}`)
             .set({ expense, category, date })
             .then(() => {
                 dispatch({ type: RESET_STATE });
@@ -169,9 +176,11 @@ export const updateExpense = (item) => {
 
 export const submitIncome = (text) => {
     const { income, category, date } = text;
+    const { currentUser } = firebase.auth();
 
     return (dispatch) => {
-        firebase.database().ref('/income')
+        firebase.database().ref(`/users/${currentUser.uid}/income`)
+        // firebase.database().ref('/income')
             .push({ income, category, date })
             .then(() => {
                 dispatch({
@@ -185,9 +194,11 @@ export const submitIncome = (text) => {
 
 export const updateIncome = (item) => {
     const { category, date, income, uid } = item;
+    const { currentUser } = firebase.auth();
 
     return (dispatch) => {
-        firebase.database().ref(`/income/${uid}`)
+        firebase.database().ref(`/users/${currentUser.uid}/income/${uid}`)
+        // firebase.database().ref(`/income/${uid}`)
             .set({ income, category, date })
             .then(() => {
                 dispatch({ type: RESET_STATE });
@@ -197,8 +208,11 @@ export const updateIncome = (item) => {
 };
 
 export const expensesFetch = () => {
+    const { currentUser } = firebase.auth();
+
     return (dispatch) => {
-        firebase.database().ref('/expense')
+        firebase.database().ref(`/users/${currentUser.uid}/expense`)
+        // firebase.database().ref('/expense')
             .on('value', snapshot => {
                 dispatch({ type: EXPENSES_FETCH, payload: snapshot.val() });
             });
@@ -206,8 +220,11 @@ export const expensesFetch = () => {
 };
 
 export const incomeFetch = () => {
+    const { currentUser } = firebase.auth();
+    
     return (dispatch) => {
-        firebase.database().ref('/income')
+        firebase.database().ref(`/users/${currentUser.uid}/income`)
+        // firebase.database().ref('/income')
             .on('value', snapshot => {
                 dispatch({ type: INCOME_FETCH, payload: snapshot.val() });
             });
