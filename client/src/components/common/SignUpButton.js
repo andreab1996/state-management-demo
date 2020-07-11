@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
     textsStyle: {
         alignSelf: 'center',
         color: 'black',
-        fontSize: 16,
-        fontWeight: '400',
+        fontSize: 18,
+        fontWeight: '600',
         paddingTop: 10,
         paddingBottom: 10,
     },
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         marginRight: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 100,
+        marginTop: 10,
     }
 });
 
