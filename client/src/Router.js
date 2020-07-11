@@ -3,10 +3,11 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Router, Scene } from 'react-native-router-flux';
 import ChooseCategory from './components/ChooseCategory';
+import Login from './components/Login';
 import Monefy from './components/Monefy';
 import NewExpense from './components/NewExpense';
 import NewIncome from './components/NewIncome';
-import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 const RouterComponent = () => {
     return (
@@ -24,10 +25,15 @@ const RouterComponent = () => {
                         initial
                     />
                     <Scene
+                        key="signUp"
+                        component={SignUp}
+                        title="Sign Up"
+                        // initial
+                    />
+                    <Scene
                         key="monefy"
                         component={Monefy}
                         title="Monefy"
-                    // initial
                     />
                     <Scene
                         key="newIncome"

@@ -23,12 +23,10 @@ export const EXPENSES_FETCH = 'expenses_fetch';
 export const SUBMIT_INCOME = 'submit_income';
 export const INCOME_FETCH = 'income_fetch';
 
-export const FIRST_NAME_CHANGED = 'first_name_changed';
-export const LAST_NAME_CHANGED = 'last_name_changed';
-export const EMAIL_CHANGED = 'email_changed';
+export const USERNAME = 'username';
+export const NAME_CHANGED = 'name_changed';
 export const PASSWORD_CHANGED = 'password_changed';
 export const CONFIRM_PASSWORD = 'confirm_password';
 export const SAME_PASSWORD = 'same_password';
-export const ON_REGISTRATION = 'on_registration';
 export const CREATE_ACCOUNT =  'create_account';
 export const LOGIN = 'login';

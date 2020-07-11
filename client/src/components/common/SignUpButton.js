@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const LoginButton = ({ onPress, children }) => {
+const SignUpButton = ({ onPress, children }) => {
     return (
         <TouchableOpacity
             style={styles.buttonStyle}
@@ -14,26 +14,26 @@ const LoginButton = ({ onPress, children }) => {
 const styles = StyleSheet.create({
     textsStyle: {
         alignSelf: 'center',
-        color: 'white',
-        fontSize: 18,
-        fontWeight: '600',
+        color: 'black',
+        fontSize: 16,
+        fontWeight: '400',
         paddingTop: 10,
         paddingBottom: 10,
     },
     buttonStyle: {
         flex: 1,
         height: 50,
-        backgroundColor: '#3CB371',
+        alignSelf: 'stretch',
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#00FF7F',
         marginLeft: 50,
         marginRight: 50,
-        marginTop: 20,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 100,
     }
 });
 
-export { LoginButton };
+export { SignUpButton };
 

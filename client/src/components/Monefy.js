@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-const mapStateToProps = ({ monefy }) => {
+const mapStateToProps = ({ monefy, login }) => {
 	const {
 		currentDate,
 		totalIncome,
@@ -434,6 +434,8 @@ const mapStateToProps = ({ monefy }) => {
 		stateList,
 		date
 	} = monefy;
+
+	const { user } = login;
 
 	return {
 		currentDate,

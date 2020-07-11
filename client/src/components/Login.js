@@ -4,59 +4,39 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/self-closing-comp */
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { connect } from 'react-redux';
-// import { emailChanged, firstNameChanged, lastNameChanged, passwordChanged, passwordIsnotSame, onRegistration } from '../actions';
-import { CardSection, Input } from './common';
+import { passwordChanged, usernameChanged, loginUser } from '../actions';
+import { CardSection } from './common';
 import { LoginButton } from './common/LoginButton';
+import { SignUpButton } from './common/SignUpButton';
 
 class Login extends Component {
-	// onFirstNameChanged(text) {
-	// 	this.props.firstNameChanged(text);
-	// }
+	constructor(props) {
+		super(props);
+	}
 
-	// onLastNameChanged(text) {
-	// 	this.props.lastNameChanged(text);
-	// }
+	onUsernameChanged(text) {
+		this.props.usernameChanged(text);
+	}
 
-	// onEmailChange(text) {
-	// 	this.props.emailChanged(text);
-	// }
-
-	// onPasswordChange(text) {
-	// 	this.props.passwordChanged(text);
-	// }
-
-	// onConfirmPassword(text) {
-	// 	const { password, confirmPassword } = this.props;
-	// 	this.props.confirmIsPasswordSame(text);
-
-	// 	if (password !== confirmPassword) { this.props.passwordIsnotSame(); }
-	// }
+	onPasswordChange(text) {
+		this.props.passwordChanged(text);
+	}
 
 	onButtonPress() {
-		// const { email, password } = this.props;
-		// console.log(email + ' ' + password);
-		// this.props.loginUser({ email, password });
+		const { username, password } = this.props;
+		this.props.loginUser({ username, password });
 	}
 
-	onRegistration() {
-		console.log('aaaaa');
-		// this.props.onRegistration();
-	}
-
-	onCreateAccount() {
-		// const { firstName, lastName, email, password } = this.props;
-		// this.props.createAccount({ firstName, lastName, email, password });
+	registration() {
+		console.log('signUp');
+		Actions.signUp();
 	}
 
 	renderButton() {
-		// if (this.props.loading) {
-		// 	return <Spinner size="large" />;
-		// }
-
 		return (
 			<LoginButton onPress={this.onButtonPress.bind(this)}>
 				Login
@@ -78,126 +58,111 @@ class Login extends Component {
 					/>
 				</View>
 				<Text style={{ textAlign: 'center', fontSize: 20 }}>Welcome to Monefy</Text>
-				{/* {this.props.registration !== true ? */}
-					<View>
-						<View style={{
-							alignItems: 'center',
-							justifyContent: 'center',
-							marginTop: 50
-						}}>
-							<CardSection>
-								<Input
-									// value={this.props.email}
-									// onChangeText={this.onEmailChange.bind(this)}
-									icon="envelope"
-									placeholder="Email"
-								/>
-							</CardSection>
-							<CardSection>
-								<Input
-									// value={this.props.password}
-									// onChangeText={this.onPasswordChange.bind(this)}
-									icon="lock"
-									placeholder="Password"
-									secureTextEntry
-								/>
-							</CardSection>
-
-							<CardSection>
-								{this.renderButton()}
-							</CardSection>
-						</View>
-
-						<View style={{ marginTop: 140, alignItems: 'center' }}>
-							<TouchableOpacity
-								// onPress={() => this.onRegistration()}
-							>
-								<Text style={{ color: 'red' }}>Don't have an account?</Text>
-							</TouchableOpacity>
-						</View>
-					</View>
-					{/* : */}
+				<View>
 					<View style={{
 						alignItems: 'center',
 						justifyContent: 'center',
-						marginTop: 20
+						marginTop: 50
 					}}>
 						<CardSection>
-							<Input
-								// value={this.props.firstName}
-								// onChangeText={this.onFirstNameChanged.bind(this)}
-								placeholder="First name"
-								icon="user"
-							/>
+							<View style={styles.containerStyle} >
+								<View style={{
+									flex: 1,
+									flexDirection: 'row',
+									alignItems: 'center',
+									justifyContent: 'center',
+									borderColor: 'gray',
+									marginLeft: 30
+								}}>
+									<Icon
+										name="user"
+										style={{ fontSize: 30, color: 'rgba(243,217,23, 0.8)', align: 'center', alignItems: 'center', margin: 30 }}
+									/>
+									<TextInput
+										style={styles.inputStyle}
+										value={this.props.username}
+										onChangeText={this.onUsernameChanged.bind(this)}
+										autoCorrect={false}
+										autoCapitalize="none"
+										placeholder="Username"
+									/>
+								</View>
+							</View>
 						</CardSection>
 						<CardSection>
-							<Input
-								// onChangeText={this.onLastNameChanged.bind(this)}
-								// value={this.props.lastName}
-								placeholder="Last name"
-								icon="user"
-							/>
+							<View style={styles.containerStyle} >
+								<View style={{
+									flex: 1,
+									flexDirection: 'row',
+									alignItems: 'center',
+									justifyContent: 'center',
+									borderColor: 'gray',
+									marginLeft: 30
+								}}>
+									<Icon
+										name="lock"
+										style={{ fontSize: 30, color: 'rgba(243,217,23, 0.8)', align: 'center', alignItems: 'center', margin: 30 }}
+									/>
+									<TextInput
+										style={styles.inputStyle}
+										value={this.props.password}
+										onChangeText={this.onPasswordChange.bind(this)}
+										autoCorrect={false}
+										autoCapitalize="none"
+										placeholder="Password"
+										secureTextEntry
+									/>
+								</View>
+							</View>
 						</CardSection>
+
 						<CardSection>
-							<Input
-								// onChangeText={this.onEmailChange.bind(this)}
-								// value={this.props.email}
-								icon="envelope"
-								placeholder="Email"
-							/>
+							{this.renderButton()}
 						</CardSection>
-						<CardSection>
-							<Input
-								// onChangeText={this.onPasswordChange.bind(this)}
-								// value={this.props.password}
-								icon="lock"
-								placeholder="Password"
-								secureTextEntry
-							/>
-						</CardSection>
-						{/* <CardSection>
-							<Input
-								secureTextEntry
-								placeholder="Confirm password"
-								onChangeText={this.onConfirmPassword.bind(this)}
-								value={this.props.confirmPassword}
-								icon="lock"
-							/>
-						</CardSection> */}
-						{/* <CardSection>
-							<Text>{this.props.samePassword}</Text>
-						</CardSection> */}
-						{/* <CardSection>
-							<LoginButton onPress={this.onCreateAccount.bind(this)}>
-								Sign up
-							</LoginButton>
-						</CardSection> */}
 					</View>
-				{/* } */}
+					<CardSection>
+						<SignUpButton
+							onPress={() => this.registration()}
+						>
+							Don't have an account? Sign up
+						</SignUpButton>
+					</CardSection>
+				</View>
 			</View>
 		);
 	}
 }
 
-// const mapStateToProps = ({ login }) => {
-// 	const { email,
-// 		password,
-// 		confirmPassword,
-// 		firstName,
-// 		lastName,
-// 		registration,
-// 		samePasswrod } = login;
+const styles = StyleSheet.create({
+	inputStyle: {
+		color: '#000',
+		paddingRight: 5,
+		paddingLeft: 5,
+		fontSize: 18,
+		lineHeight: 23,
+		flex: 2,
+	},
+	labelStyle: {
+		fontSize: 18,
+		paddingLeft: 20,
+		flex: 1
+	},
+	containerStyle: {
+		height: 40,
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center'
+	}
+});
 
-// 	return { email, password, confirmPassword, firstName, lastName, registration, samePasswrod };
-// };
+const mapStateToProps = ({ login }) => {
+	const { username, password, registration } = login;
 
-export default Login;
-// {
-// 	firstNameChanged,
-// 	lastNameChanged,
-// 	emailChanged,
-// 	passwordChanged,
-// 	// confirmIsPasswordSame,
-// 	passwordIsnotSame,
-// 	onRegistration
-// }
+	return { username, password, registration };
+};
+
+export default connect(mapStateToProps, {
+	usernameChanged,
+	passwordChanged,
+	loginUser
+})(Login);
