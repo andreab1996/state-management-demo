@@ -1,4 +1,4 @@
-import { CONFIRM_PASSWORD, CREATE_ACCOUNT, NAME_CHANGED, ON_REGISTRATION, PASSWORD_CHANGED, SAME_PASSWORD, USERNAME, LOGIN } from '../actions/types';
+import { CONFIRM_PASSWORD, CREATE_ACCOUNT, NAME_CHANGED, ON_REGISTRATION, PASSWORD_CHANGED, SAME_PASSWORD, USERNAME, LOGIN, LOGIN_USER_FAIL, LOGIN_USER } from '../actions/types';
 
 const INITIAL_STATE = {
     name: '',
@@ -7,7 +7,9 @@ const INITIAL_STATE = {
     confirmPassword: '',
     samePassword: '',
     registration: false,
-    user: {}
+    user: {},
+    loginError: '',
+    loading: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -25,9 +27,13 @@ export default (state = INITIAL_STATE, action) => {
         case ON_REGISTRATION:
             return { ...state, registration: action.payload };
         case CREATE_ACCOUNT:
-            return { ...state, registration: false, samePassword: '', user: action.payload };
+            return { ...state, registration: false, samePassword: '', loginError: '' };
         case LOGIN:
-            return { ...state, samePassword: '', user: action.payload };
+            return { ...state, samePassword: '', loading: false, username: '', password: '' };
+        case LOGIN_USER_FAIL:
+            return { ...state, loginError: 'Wrong credentials. Try again.' };
+        case LOGIN_USER:
+            return { ...state, loading: true, loginError: '' };
         default:
             return INITIAL_STATE;
     }
